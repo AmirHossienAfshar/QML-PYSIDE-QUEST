@@ -5,7 +5,7 @@ import QtQuick.Layouts
 
 ApplicationWindow {
     visible: true
-    width: 700
+    width: 800
     height: 500
     title: "Edith Info Page"
 
@@ -43,16 +43,16 @@ ApplicationWindow {
                                                  //and the labels will be placed sequentially in those
                                                  //rows by default.
                     anchors.fill: parent
-                    rows: 6
+                    rows: 5
 
 
 
                     Label {
                         text: "Room number:"
                     }
-                    Label {
+                    /*Label {
                         text: "Surgeon:"
-                    }
+                    }*/
                     Label {
                         text: "patient name:"
                     }
@@ -83,12 +83,12 @@ ApplicationWindow {
                         }
                     }
 
-                    TextField {
+                    /*TextField {
                         id: surgeon
                         Layout.fillWidth: true
                         color: "black"
                         placeholderText: "Start typing..."
-                    }
+                    }*/
                     TextField {
                         id: patientName
                         Layout.fillWidth: true
@@ -120,9 +120,9 @@ ApplicationWindow {
             GroupBox {
 
                 id: seorgeyInfo
-                title: "seorgeyInfo"
+                title: "seorgey Info"
 
-                Layout.minimumWidth: 250
+                Layout.minimumWidth: 300
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 font.pixelSize: 15
@@ -134,37 +134,65 @@ ApplicationWindow {
                                                  //and the labels will be placed sequentially in those
                                                  //rows by default.
                     anchors.fill: parent
-                    rows: 3
+                    rows: 6
 
+                    Label {
+                        text: "Surgery:"
+                    }
+                    Label {
+                        text: "Anesthesia:"
+                    }
                     Label {
                         text: "Surgeon:"
                     }
                     Label {
-                        text: "patient:"
+                        text: "experties:"
                     }
                     Label {
-                        text: "Age:"
+                        text: "Anesthesiologist:"
+                    }
+                    Label {
+                        text: "experties:"
                     }
                     TextField {
-                        //height: 50
+                        id: surgery
                         color: "black"
                         placeholderText: "Start typing..."
-                        //Layout.minimumWidth: 200
                         Layout.fillWidth: true
                     }
 
                     TextField {
-                        Layout.fillWidth: true
-                        color: "black"
-                        placeholderText: "Start typing..."
-
-                    }
-                    TextField {
+                        id: anesthesia
                         Layout.fillWidth: true
                         color: "black"
                         placeholderText: "Start typing..."
 
                     }
+                    TextField {
+                        id: surgeon
+                        Layout.fillWidth: true
+                        color: "black"
+                        placeholderText: "Start typing..."
+                    }
+                    TextField {
+                        id: surgeonExperties
+                        Layout.fillWidth: true
+                        color: "black"
+                        placeholderText: "Start typing..."
+                    }
+                    TextField {
+                        id: anesthesiologist
+                        Layout.fillWidth: true
+                        color: "black"
+                        placeholderText: "Start typing..."
+                    }
+                    TextField {
+                        id: anesthesiologistExperties
+                        Layout.fillWidth: true
+                        color: "black"
+                        placeholderText: "Start typing..."
+                    }
+
                 }
             }
 
@@ -182,9 +210,9 @@ ApplicationWindow {
 
         RowLayout{
             id: socondRowLayout
-
-
             GroupBox {
+                id: surgeryTeam
+                title: "Surgery Team"
 
                 Layout.minimumWidth: 200
                 Layout.fillWidth: true
@@ -192,44 +220,47 @@ ApplicationWindow {
                 font.pixelSize: 15
 
 
-                title: "Input4"
 
                 GridLayout {
-                    flow: GridLayout.TopToBottom // The structure of the GridLayout with rows:
-                                                 //3 defines three rows,
-                                                 //and the labels will be placed sequentially in those
-                                                 //rows by default.
+                    flow: GridLayout.TopToBottom
                     anchors.fill: parent
-                    rows: 3
+
+                    rows: 4
 
                     Label {
-                        text: "Surgeon:"
+                        text: "Assest sergeon:"
                     }
                     Label {
-                        text: "patient:"
+                        text: "Scrub Nurse:"
                     }
                     Label {
-                        text: "Age:"
+                        text: "Nurse Anes:"
+                    }
+                    Label {
+                        text: "Circulating Nurse:"
                     }
                     TextField {
-                        //height: 50
-                        color: "black"
-                        placeholderText: "Start typing..."
-                        //Layout.minimumWidth: 200
+                        id: assestSergeon
                         Layout.fillWidth: true
+                        placeholderText: "Start typing..."
                     }
 
                     TextField {
+                        id: scrubNurse
                         Layout.fillWidth: true
-                        color: "black"
                         placeholderText: "Start typing..."
 
                     }
                     TextField {
+                        id: nurseAnes
                         Layout.fillWidth: true
-                        color: "black"
                         placeholderText: "Start typing..."
-
+                    }
+                    TextField
+                    {
+                        id: circulatingNurse
+                        placeholderText: "Start typing..."
+                        Layout.fillWidth: true
                     }
                 }
             }
@@ -239,7 +270,7 @@ ApplicationWindow {
                 title: "save"
 
 
-                Layout.minimumWidth: 100
+                Layout.minimumWidth: 200
                 Layout.fillWidth: true
                 Layout.fillHeight: true
 
