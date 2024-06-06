@@ -7,15 +7,10 @@ ApplicationWindow {
     visible: true
     width: 700
     height: 500
-    title: "HelloApp"
+    title: "Edith Info Page"
 
-    Component.onCompleted: {
-        width = mainLayout.implicitWidth + 2 * margin
-        height = mainLayout.implicitHeight + 2 * margin
-    }
-
-    minimumWidth: 200
-    minimumHeight: mainLayout.Layout.minimumHeight + 2 * margin
+    minimumWidth: 800
+    minimumHeight: 400
 
     ColumnLayout{
         id: mainLayout
@@ -36,55 +31,89 @@ ApplicationWindow {
                 id: patientInfo
                 title: "Patient Info"
 
-                Layout.minimumWidth: 250
+                Layout.minimumWidth: 300
                 Layout.fillWidth: true
                 Layout.fillHeight: true
 
                 font.pixelSize: 15
-                font.family: "Calibri"  // Replace with your chosen font
-
-
 
                 GridLayout {
-                    flow: GridLayout.TopToBottom // The structure of the GridLayout with rows:
-                                                 //3 defines three rows,
+                    flow: GridLayout.TopToBottom //The structure of the GridLayout with rows:
+                                                 //6 defines 6 rows,
                                                  //and the labels will be placed sequentially in those
                                                  //rows by default.
                     anchors.fill: parent
-                    rows: 3
+                    rows: 6
 
+
+
+                    Label {
+                        text: "Room number:"
+                    }
                     Label {
                         text: "Surgeon:"
                     }
                     Label {
-                        text: "patient:"
+                        text: "patient name:"
                     }
                     Label {
                         text: "Age:"
                     }
-                    TextField {
-                        //height: 50
-                        color: "black"
-                        placeholderText: "Start typing..."
-                        /*Layout.minimumWidth: 200*/
+                    Label {
+                        text: "companion:"
+                    }
+                    Label {
+                        text: "phone number:"
+                    }
+
+
+                    ComboBox {
+                        id: roomNumber
                         Layout.fillWidth: true
-                        /*onTextChanged: {
-                            placeholderText: !focused ? "Start typing..." : ""
-                        }*/
+                        editable: true
+                        model: ListModel {
+                            id: model
+                            ListElement { text: "1" }
+                            ListElement { text: "2" }
+                            ListElement { text: "3" }
+                        }
+                        onAccepted: {
+                            if (find(editText) === -1)
+                                model.append({text: editText})
+                        }
                     }
 
                     TextField {
+                        id: surgeon
                         Layout.fillWidth: true
                         color: "black"
                         placeholderText: "Start typing..."
-
                     }
                     TextField {
+                        id: patientName
                         Layout.fillWidth: true
                         color: "black"
                         placeholderText: "Start typing..."
-
                     }
+                    TextField {
+                        id: age
+                        Layout.fillWidth: true
+                        color: "black"
+                        placeholderText: "Start typing..."
+                    }
+                    TextField {
+                        id: companion
+                        Layout.fillWidth: true
+                        color: "black"
+                        placeholderText: "Start typing..."
+                    }
+                    TextField {
+                        id: phoneNumber
+                        Layout.fillWidth: true
+                        color: "black"
+                        placeholderText: "Start typing..."
+                    }
+
                 }
             }
 
@@ -207,6 +236,7 @@ ApplicationWindow {
 
             GroupBox{
 
+                title: "save"
 
 
                 Layout.minimumWidth: 100
@@ -220,15 +250,14 @@ ApplicationWindow {
                         color:  "gray"
                 }*/
 
-                title: "Input2"
                 Button {
                     text: qsTr("Button")
                     Layout.fillHeight: true
                 }
+
             }
+
         }
-
-
 
 
     }
