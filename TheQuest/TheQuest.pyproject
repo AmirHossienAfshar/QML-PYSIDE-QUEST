@@ -3,6 +3,7 @@
         "Anesthesiologist.py",
         "Bridge.py",
         "EdithInfoPage.qml",
+        "Patient.py",
         "Person.py",
         "Surgeon.py",
         "main.py"
