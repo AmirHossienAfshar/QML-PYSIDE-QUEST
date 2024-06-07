@@ -288,7 +288,8 @@ ApplicationWindow {
 
                         text: "Create Person"
                         onClicked: {
-                            Bridge.createPersonObject(patientName.text)
+                            Bridge.createPersonObject(patientName.text, age.text, companion.text, phoneNumber.text,
+                                                      assestSergeon.text, scrubNurse.text, nurseAnes.text, circulatingNurse.text )
                         }
                     }
 

@@ -1,7 +1,8 @@
 # This Python file uses the following encoding: utf-8
-from Patient import patient
+from Person import Person
+from Patient import Patient
 from Anesthesiologist import Anesthesiologist
-from Surgen import Surgen
+from Surgeon import Surgeon
 from Patient import Patient
 from SurgeryTeam import SurgeryTeam
 
