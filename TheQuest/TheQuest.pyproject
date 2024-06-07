@@ -1,8 +1,10 @@
 {
     "files": [
+        "Anesthesiologist.py",
         "Bridge.py",
         "EdithInfoPage.qml",
         "Person.py",
+        "Surgeon.py",
         "main.py"
     ]
 }
