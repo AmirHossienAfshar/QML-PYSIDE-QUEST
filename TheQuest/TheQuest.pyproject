@@ -6,6 +6,8 @@
         "Patient.py",
         "Person.py",
         "Surgeon.py",
+        "Surgery.py",
+        "SurgeryTeam.py",
         "main.py"
     ]
 }

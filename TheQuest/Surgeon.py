@@ -10,3 +10,6 @@ class Surgeon(Person):
 
     def setExperties(self, experties):
         self.experties = experties
+
+    def GetSurgeonInfo(self):
+        print (f"Surgeon name is: {self.name}, experts in {self.experties}")

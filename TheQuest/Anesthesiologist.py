@@ -11,4 +11,7 @@ class Anesthesiologist(Person):
     def setExperties(self, experties):
         self.experties = experties
 
+    def GetAnesthesiologistInfo(self):
+        print (f"Anesthesiologist name is {self.name}, experts in {self.experties}")
+
 
