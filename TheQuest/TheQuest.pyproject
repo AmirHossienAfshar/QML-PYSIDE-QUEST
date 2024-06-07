@@ -1,6 +1,8 @@
 {
     "files": [
+        "Bridge.py",
         "EdithInfoPage.qml",
+        "Person.py",
         "main.py"
     ]
 }

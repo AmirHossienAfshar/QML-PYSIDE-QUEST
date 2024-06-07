@@ -281,20 +281,31 @@ ApplicationWindow {
                         color:  "gray"
                 }*/
 
-                Button {
-                    text: qsTr("Button")
-                    Layout.fillHeight: true
-                }
+                ColumnLayout{
+                    anchors.fill: parent
+                    Layout.fillHeight:  true
+                    Button {
 
+                        text: "Create Person"
+                        onClicked: {
+                            Bridge.createPersonObject(patientName.text)
+                        }
+                    }
+
+                    Button {
+
+                        text: "Print Person's Name"
+                        onClicked: {
+                            Bridge.printPersonName()
+                        }
+                    }
+                }
             }
 
         }
 
 
     }
-
-
-
 
 }
 
