@@ -22,13 +22,13 @@ class Bridge(QObject):
 
         #  1    2    3    4    5    6    7    8
     @Slot(str, str, str, str, str, str, str, str)
-    def createPersonObject(self, ParientName, PatientAge, PatientCompanion, PatientPhoneNumber, assestSergeon, scrubNurse, nurseAnes, circulatingNurse):
+    def createPersonObject(self, PatientName, PatientAge, PatientCompanion, PatientPhoneNumber, assestSergeon, scrubNurse, nurseAnes, circulatingNurse):
         #person1 = Person(name)          # an instance is created, if not wnated, use @classmethod instead
         #person1.makeObject()
         #self.person = Person(name)  # Creating a Person object with the provided name
         #self.person.makeObject()
         self.companion = Person(PatientCompanion)
-        self.patient = Patient(ParientName, PatientAge, self.companion, PatientPhoneNumber)
+        self.patient = Patient(PatientName, PatientAge, self.companion, PatientPhoneNumber)
         self.surgeryTeam = SurgeryTeam(assestSergeon, scrubNurse, nurseAnes, circulatingNurse)
 
     @Slot()
@@ -39,3 +39,20 @@ class Bridge(QObject):
             print("No person has been created yet.")'''
         self.patient.GetPatientInfo()
         self.surgeryTeam.GetSurgeryTeamInfo()
+
+
+    # name, age, companion, phoneNumber: different fields of patient class
+    @Slot(str, str, str, str)
+    def creatPatientObject(self, PatientName, PatientAge, PatientCompanion, PatientPhoneNumber):
+        self.patient = Patient(PatientName, PatientAge, self.companion, PatientPhoneNumber)
+
+
+
+
+
+
+
+
+
+
+

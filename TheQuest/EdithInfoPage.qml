@@ -100,6 +100,8 @@ ApplicationWindow {
                         Layout.fillWidth: true
                         color: "black"
                         placeholderText: "Start typing..."
+                        validator: IntValidator { bottom: 0; top: 9999 }
+
                     }
                     TextField {
                         id: companion
@@ -289,7 +291,8 @@ ApplicationWindow {
                         text: "Create Person"
                         onClicked: {
                             Bridge.createPersonObject(patientName.text, age.text, companion.text, phoneNumber.text,
-                                                      assestSergeon.text, scrubNurse.text, nurseAnes.text, circulatingNurse.text )
+                                                      assestSergeon.text, scrubNurse.text, nurseAnes.text, circulatingNurse.text)
+                            Bridge.creatPatientObject(patientName.text, age.text, companion.text, phoneNumber.text)
                         }
                     }
 
@@ -300,10 +303,17 @@ ApplicationWindow {
                             Bridge.printPersonName()
                         }
                     }
+
+
+
+
                 }
+
+
             }
 
         }
+
 
 
     }
