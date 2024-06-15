@@ -6,10 +6,10 @@ import QtQuick.Layouts
 ApplicationWindow {
     visible: true
     width: 800
-    height: 500
+    height: 550
     title: "Edith Info Page"
 
-    minimumWidth: 800
+    minimumWidth: 950
     minimumHeight: 400
 
     ColumnLayout{
@@ -44,8 +44,6 @@ ApplicationWindow {
                                                  //rows by default.
                     anchors.fill: parent
                     rows: 5
-
-
 
                     Label {
                         text: "Room number:"
@@ -122,7 +120,7 @@ ApplicationWindow {
             GroupBox {
 
                 id: seorgeyInfo
-                title: "seorgey Info"
+                title: "surgery Info"
 
                 Layout.minimumWidth: 300
                 Layout.fillWidth: true
@@ -198,16 +196,218 @@ ApplicationWindow {
                 }
             }
 
-            GroupBox
-            {
-                Layout.minimumWidth: 250
+
+            GroupBox {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 font.pixelSize: 15
+                title: "Date and Time"
 
-                title: "Input3"
+                GridLayout {
+                    flow: GridLayout.TopToBottom
+                    anchors.fill: parent
+                    rows: 3
+                    //spacing: 10
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+
+                    GroupBox {
+                        id: durationTime
+                        title: "Surgery Duration"
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+
+                        ColumnLayout {
+                            spacing: 10
+                            Layout.fillWidth: true
+                            Layout.fillHeight: true
+
+                            RowLayout {
+                                spacing: 10
+                                Layout.fillWidth: true
+                                Label {
+                                    Layout.fillWidth: true
+                                    text: "Hours:   "
+                                }
+                                Slider {
+                                    id: hoursSliderDuration
+                                    Layout.fillWidth: true
+                                    from: 0
+                                    to: 24
+                                    stepSize: 1
+                                    Layout.preferredWidth: 150
+                                    onValueChanged: hoursTextDuration.text = value.toString()
+                                }
+                                Text {
+                                    Layout.fillWidth: true
+                                    id: hoursTextDuration
+                                    text: hoursSliderDuration.value.toString()
+                                    Layout.preferredWidth: 50
+                                    horizontalAlignment: Text.AlignHCenter
+                                }
+                            }
+
+                            RowLayout {
+                                Layout.fillWidth: true
+                                spacing: 10
+                                Label {
+                                    text: "Minutes:"
+                                }
+                                Slider {
+                                    id: minutesSliderDuration
+                                    from: 0
+                                    to: 59
+                                    stepSize: 1
+                                    Layout.preferredWidth: 150
+                                    onValueChanged: minutesTextDuration.text = value.toString()
+                                }
+                                Text {
+                                    id: minutesTextDuration
+                                    text: minutesSliderDuration.value.toString()
+                                    Layout.preferredWidth: 50
+                                    horizontalAlignment: Text.AlignHCenter
+                                }
+                            }
+                        }
+                    }
+
+                    GroupBox {
+                        id: startTime
+                        title: "Surgery Start time"
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+
+                        ColumnLayout {
+                            spacing: 10
+                            Layout.fillWidth: true
+                            Layout.fillHeight: true
+
+                            RowLayout {
+                                spacing: 10
+                                Label {
+                                    text: "Hours:   "
+                                }
+                                Slider {
+                                    id: hoursSliderStart
+                                    from: 0
+                                    to: 24
+                                    stepSize: 1
+                                    Layout.preferredWidth: 150
+                                    onValueChanged: hoursTextStart.text = value.toString()
+                                }
+                                Text {
+                                    id: hoursTextStart
+                                    text: hoursSliderStart.value.toString()
+                                    Layout.preferredWidth: 50
+                                    horizontalAlignment: Text.AlignHCenter
+                                }
+                            }
+
+                            RowLayout {
+                                spacing: 10
+                                Label {
+                                    text: "Minutes:"
+                                }
+                                Slider {
+                                    id: minutesSliderStart
+                                    from: 0
+                                    to: 59
+                                    stepSize: 1
+                                    Layout.preferredWidth: 150
+                                    onValueChanged: minutesTextStart.text = value.toString()
+                                }
+                                Text {
+                                    id: minutesTextStart
+                                    text: minutesSliderStart.value.toString()
+                                    Layout.preferredWidth: 50
+                                    horizontalAlignment: Text.AlignHCenter
+                                }
+                            }
+                        }
+                    }
+
+                    GroupBox {
+                        id: datePiker
+                        title: "Select Date"
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+
+                        ColumnLayout {
+                            spacing: 10
+                            Layout.fillWidth: true
+                            Layout.fillHeight: true
+
+                            RowLayout {
+                                spacing: 10
+                                Label {
+                                    text: "Day:"
+                                }
+                                ComboBox {
+                                    id: dayComboBox
+                                    Layout.preferredWidth: 60
+                                    model: ListModel
+                                    {
+                                        Component.onCompleted:
+                                        {
+                                            for (var i = 1; i <= 31; i++) {
+                                                append({"text": i.toString()})
+                                            }
+                                        }
+                                    }
+                                    currentIndex : 0
+                                }
+                            }
+
+                            RowLayout {
+                                spacing: 10
+                                Label {
+                                    text: "Month:"
+                                }
+                                ComboBox {
+                                    id: monthComboBox
+                                    Layout.preferredWidth: 100
+                                    model: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+                                }
+                            }
+
+                            RowLayout {
+                                spacing: 10
+                                Label {
+                                    text: "Year:"
+                                }
+                                ComboBox {
+                                    id: yearComboBox
+                                    Layout.preferredWidth: 80
+                                    model: ListModel {
+                                        Component.onCompleted: {
+                                            for (var i = 2024; i <= 2024; i++) {
+                                                append({"text": i.toString()})
+                                            }
+                                        }
+                                    }
+                                    currentIndex : 0
+                                }
+                            }
+
+                            RowLayout {
+                                spacing: 10
+                                Button {
+                                    text: "Submit"
+                                    onClicked: {
+                                        var selectedDay = dayComboBox.currentText
+                                        var selectedMonth = monthComboBox.currentText
+                                        var selectedYear = yearComboBox.currentText
+                                        console.log("Date Selected: " + selectedDay + " " + selectedMonth + " " + selectedYear)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
 
             }
+
+
         }
 
         RowLayout{
@@ -220,7 +420,6 @@ ApplicationWindow {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 font.pixelSize: 15
-
 
 
                 GridLayout {
@@ -290,9 +489,10 @@ ApplicationWindow {
 
                         text: "Create Person"
                         onClicked: {
-                            Bridge.createPersonObject(patientName.text, age.text, companion.text, phoneNumber.text,
-                                                      assestSergeon.text, scrubNurse.text, nurseAnes.text, circulatingNurse.text)
+                            /*Bridge.createPersonObject(patientName.text, age.text, companion.text, phoneNumber.text,
+                                                      assestSergeon.text, scrubNurse.text, nurseAnes.text, circulatingNurse.text)*/
                             Bridge.creatPatientObject(patientName.text, age.text, companion.text, phoneNumber.text)
+                            Bridge.creatSurgeryTeamObject(assestSergeon.text, nurseAnes.text, scrubNurse.text, circulatingNurse.text)
                         }
                     }
 
