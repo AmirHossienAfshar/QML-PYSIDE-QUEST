@@ -8,6 +8,8 @@
         "Surgeon.py",
         "Surgery.py",
         "SurgeryTeam.py",
+        "SurgeryType.py",
+        "Time.py",
         "main.py"
     ]
 }

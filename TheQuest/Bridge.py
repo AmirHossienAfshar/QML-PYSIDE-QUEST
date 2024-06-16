@@ -1,38 +1,30 @@
 # This Python file uses the following encoding: utf-8
-from PySide6 import QtQuick
-from Person import Person
 from PySide6.QtCore import QObject, Slot
 from Patient import Patient
 from Anesthesiologist import Anesthesiologist
 from Surgeon import Surgeon
-from Patient import Patient
 from SurgeryTeam import SurgeryTeam
-
-# Bridge.createPersonObject(patientName.text, age.text, companion.text, phoneNumber.text)
-# assestSergeon.text, scrubNurse.text, nurseAnes.text, circulatingNurse.text
+from Time import Time
+from SurgeryType import SurgeryType
 
 class Bridge(QObject):
     def __init__(self):
         super().__init__()
-        self.companion = None
         self.patient = None
         self.surgeon = None
         self.anesthesiologist = None
         self.surgeryTeam = None
-
-    '''@Slot(str, str, str, str, str, str, str, str)
-    def createPersonObject(self, PatientName, PatientAge, PatientCompanion, PatientPhoneNumber, assestSergeon, scrubNurse, nurseAnes, circulatingNurse):
-        '''
+        self.time = None
+        self.surgeryType = None
 
     @Slot()
     def printPersonName(self):
-        '''if self.person:
-            print(f"The current person's name is: {self.person.name}")
-        else:
-            print("No person has been created yet.")'''
         self.patient.GetPatientInfo()
         self.surgeryTeam.GetSurgeryTeamInfo()
-
+        self.time.printInfoTime()
+        self.anesthesiologist.GetAnesthesiologistInfo()
+        self.surgeon.GetSurgeonInfo()
+        self.surgeryType.printSurgeryTypeInfo()
 
     # name, age, companion, phoneNumber: different fields of patient class
     @Slot(str, str, str, str)
@@ -44,14 +36,23 @@ class Bridge(QObject):
     def creatSurgeryTeamObject(self, assestSergeon, nurseAnes, scrubNurse, circulatingNurse):
         self.surgeryTeam = SurgeryTeam(assestSergeon, nurseAnes, scrubNurse, circulatingNurse)
 
+    #(self, startHour, startMin, DurationHour, DurationMin, Day, Month, year)
+    @Slot(str, str, str, str, str, str, str)
+    def creatDateNTimeObject(self, StartHour, startMin, DurationHour, DurationMin, Day, Month, year):
+        self.time = Time(StartHour, startMin, DurationHour, DurationMin, Day, Month, year)
 
+    @Slot(str, str)
+    def creatSurgeonObject(self, surgeonName, surgeonExperties):
+        self.surgeon = Surgeon(surgeonName, surgeonExperties)
 
+    @Slot(str, str)
+    def creatAnesthesiologistObject(self, anesthesiologist, anesthesiologistExperties):
+        self.anesthesiologist = Anesthesiologist(anesthesiologist, anesthesiologistExperties)
 
+    @Slot(str, str)
+    def creatSurgeryTypeObject(self, surgeryType, anesthesiaType):
+        self.surgeryType = SurgeryType(surgeryType, anesthesiaType)
 
-
-
-
-
-
-
+    def compeletedObject(slef):
+        pass
 

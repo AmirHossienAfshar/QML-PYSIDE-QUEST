@@ -5,7 +5,7 @@ import QtQuick.Layouts
 
 ApplicationWindow {
     visible: true
-    width: 800
+    width: 1000
     height: 550
     title: "Edith Info Page"
 
@@ -26,7 +26,7 @@ ApplicationWindow {
             anchors.margins: appWindow.margin
 
 
-            GroupBox {
+            GroupBox { // patient info
 
                 id: patientInfo
                 title: "Patient Info"
@@ -48,9 +48,6 @@ ApplicationWindow {
                     Label {
                         text: "Room number:"
                     }
-                    /*Label {
-                        text: "Surgeon:"
-                    }*/
                     Label {
                         text: "patient name:"
                     }
@@ -80,13 +77,6 @@ ApplicationWindow {
                                 model.append({text: editText})
                         }
                     }
-
-                    /*TextField {
-                        id: surgeon
-                        Layout.fillWidth: true
-                        color: "black"
-                        placeholderText: "Start typing..."
-                    }*/
                     TextField {
                         id: patientName
                         Layout.fillWidth: true
@@ -117,7 +107,7 @@ ApplicationWindow {
                 }
             }
 
-            GroupBox {
+            GroupBox { // surgery info
 
                 id: seorgeyInfo
                 title: "surgery Info"
@@ -196,8 +186,7 @@ ApplicationWindow {
                 }
             }
 
-
-            GroupBox {
+            GroupBox { // date and time
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 font.pixelSize: 15
@@ -332,11 +321,11 @@ ApplicationWindow {
                         Layout.fillWidth: true
                         Layout.fillHeight: true
 
-                        ColumnLayout {
-                            spacing: 10
+                        GridLayout {
+                            //spacing: 10
                             Layout.fillWidth: true
                             Layout.fillHeight: true
-
+                            rows : 3
                             RowLayout {
                                 spacing: 10
                                 Label {
@@ -344,7 +333,8 @@ ApplicationWindow {
                                 }
                                 ComboBox {
                                     id: dayComboBox
-                                    Layout.preferredWidth: 60
+                                    Layout.preferredWidth: 40
+                                    Layout.fillWidth: true
                                     model: ListModel
                                     {
                                         Component.onCompleted:
@@ -365,7 +355,8 @@ ApplicationWindow {
                                 }
                                 ComboBox {
                                     id: monthComboBox
-                                    Layout.preferredWidth: 100
+                                    Layout.preferredWidth: 80
+                                    Layout.fillWidth: parent
                                     model: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
                                 }
                             }
@@ -377,7 +368,8 @@ ApplicationWindow {
                                 }
                                 ComboBox {
                                     id: yearComboBox
-                                    Layout.preferredWidth: 80
+                                    Layout.preferredWidth: 60
+                                    Layout.fillWidth: true
                                     model: ListModel {
                                         Component.onCompleted: {
                                             for (var i = 2024; i <= 2024; i++) {
@@ -389,7 +381,7 @@ ApplicationWindow {
                                 }
                             }
 
-                            RowLayout {
+                            /*RowLayout {
                                 spacing: 10
                                 Button {
                                     text: "Submit"
@@ -400,19 +392,18 @@ ApplicationWindow {
                                         console.log("Date Selected: " + selectedDay + " " + selectedMonth + " " + selectedYear)
                                     }
                                 }
-                            }
+                            }*/
                         }
                     }
                 }
 
             }
 
-
         }
 
         RowLayout{
             id: socondRowLayout
-            GroupBox {
+            GroupBox { // Surgery Team
                 id: surgeryTeam
                 title: "Surgery Team"
 
@@ -469,18 +460,11 @@ ApplicationWindow {
             GroupBox{
 
                 title: "save"
-
-
                 Layout.minimumWidth: 200
                 Layout.fillWidth: true
                 Layout.fillHeight: true
 
                 font.pixelSize: 15
-
-                /*background: Rectangle {
-
-                        color:  "gray"
-                }*/
 
                 ColumnLayout{
                     anchors.fill: parent
@@ -489,10 +473,33 @@ ApplicationWindow {
 
                         text: "Create Person"
                         onClicked: {
-                            /*Bridge.createPersonObject(patientName.text, age.text, companion.text, phoneNumber.text,
-                                                      assestSergeon.text, scrubNurse.text, nurseAnes.text, circulatingNurse.text)*/
-                            Bridge.creatPatientObject(patientName.text, age.text, companion.text, phoneNumber.text)
-                            Bridge.creatSurgeryTeamObject(assestSergeon.text, nurseAnes.text, scrubNurse.text, circulatingNurse.text)
+                            Bridge.creatPatientObject(patientName.text,
+                                                      age.text,
+                                                      companion.text,
+                                                      phoneNumber.text)
+
+                            Bridge.creatSurgeryTeamObject(assestSergeon.text,
+                                                          nurseAnes.text,
+                                                          scrubNurse.text,
+                                                          circulatingNurse.text)
+
+                            Bridge.creatDateNTimeObject(
+                                                    hoursSliderStart.value.toString(),
+                                                    minutesSliderStart.value.toString(),
+                                                    hoursSliderDuration.value.toString(),
+                                                    minutesSliderDuration.value.toString(),
+                                                    dayComboBox.currentText,
+                                                    monthComboBox.currentText,
+                                                    yearComboBox.currentText
+                                                    )
+
+                            Bridge.creatSurgeonObject(surgeon.text, surgeonExperties.text)
+
+                            Bridge.creatAnesthesiologistObject(anesthesiologist.text,
+                                                               anesthesiologistExperties.text)
+
+                            Bridge.creatSurgeryTypeObject(surgery.text, anesthesia.text)
+
                         }
                     }
 
@@ -508,15 +515,8 @@ ApplicationWindow {
 
 
                 }
-
-
             }
-
         }
-
-
-
     }
-
 }
 
