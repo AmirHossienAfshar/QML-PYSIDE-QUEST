@@ -510,10 +510,6 @@ ApplicationWindow {
                             Bridge.printPersonName()
                         }
                     }
-
-
-
-
                 }
             }
         }

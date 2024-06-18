@@ -11,8 +11,7 @@ class Surgery:
         self.PatientInfo = PatientInfo                      # object of Patient
         self.SurgeonInfo = SurgeonInfo                      # object of Surgeon
         self.SurgeryType = SurgeryType                      # string from input
-        self.SurgeryAnesthesia = SurgeryAnesthesia          # string from input
-        self.AnesthesiologistInfo = AnesthesiologistInfo    # object of Anesthesiologist
+        self.SurgeryAnesthesia = SurgeryAnesthesia          # object of 
         self.SurgeryTeamInfo = SurgeryTeamInfo              # object of SurgeryTeam
         self.time = time
 

@@ -6,6 +6,7 @@ from Surgeon import Surgeon
 from SurgeryTeam import SurgeryTeam
 from Time import Time
 from SurgeryType import SurgeryType
+from Surgery import Surgery
 
 class Bridge(QObject):
     def __init__(self):
@@ -54,5 +55,5 @@ class Bridge(QObject):
         self.surgeryType = SurgeryType(surgeryType, anesthesiaType)
 
     def compeletedObject(slef):
-        pass
+        self.surgry = Surgery(self.patient, self.surgeon, self.anesthesiologist, self.surgeryType, self.surgeryTeam, self.time)
 
