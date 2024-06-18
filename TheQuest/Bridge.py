@@ -7,6 +7,7 @@ from SurgeryTeam import SurgeryTeam
 from Time import Time
 from SurgeryType import SurgeryType
 from Surgery import Surgery
+from SurgeryDAO import SurgeryDAO
 
 class Bridge(QObject):
     def __init__(self):
@@ -17,6 +18,7 @@ class Bridge(QObject):
         self.surgeryTeam = None
         self.time = None
         self.surgeryType = None
+        self.surgery = None
 
     @Slot()
     def printPersonName(self):
@@ -54,6 +56,8 @@ class Bridge(QObject):
     def creatSurgeryTypeObject(self, surgeryType, anesthesiaType):
         self.surgeryType = SurgeryType(surgeryType, anesthesiaType)
 
-    def compeletedObject(slef):
-        self.surgry = Surgery(self.patient, self.surgeon, self.anesthesiologist, self.surgeryType, self.surgeryTeam, self.time)
-
+    @Slot()
+    def compeletedObject(self):
+        self.surgery = Surgery(self.patient, self.surgeon, self.anesthesiologist, self.surgeryType, self.surgeryTeam, self.time)
+        surgeryDB = SurgeryDAO(self.surgery)
+        surgeryDB.insertToTimeTable()

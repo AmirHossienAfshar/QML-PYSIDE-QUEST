@@ -499,6 +499,7 @@ ApplicationWindow {
                                                                anesthesiologistExperties.text)
 
                             Bridge.creatSurgeryTypeObject(surgery.text, anesthesia.text)
+                            Bridge.compeletedObject()
 
                         }
                     }

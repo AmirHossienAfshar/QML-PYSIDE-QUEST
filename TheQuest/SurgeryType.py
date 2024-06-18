@@ -1,6 +1,5 @@
 # This Python file uses the following encoding: utf-8
 
-
 class SurgeryType:
     def __init__(self, surgeryType, anesthesiaType):
         self.surgeryType = surgeryType

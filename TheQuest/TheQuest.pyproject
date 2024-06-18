@@ -7,6 +7,7 @@
         "Person.py",
         "Surgeon.py",
         "Surgery.py",
+        "SurgeryDAO.py",
         "SurgeryTeam.py",
         "SurgeryType.py",
         "Time.py",
