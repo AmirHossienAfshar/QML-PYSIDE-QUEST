@@ -60,4 +60,4 @@ class Bridge(QObject):
     def compeletedObject(self):
         self.surgery = Surgery(self.patient, self.surgeon, self.anesthesiologist, self.surgeryType, self.surgeryTeam, self.time)
         surgeryDB = SurgeryDAO(self.surgery)
-        surgeryDB.insertToTimeTable()
+        surgeryDB.insertAllData()
