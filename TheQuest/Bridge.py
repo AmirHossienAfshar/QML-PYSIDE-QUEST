@@ -11,7 +11,7 @@ from SurgeryDAO import SurgeryDAO
 
 class Bridge(QObject):
 
-    timeOverlapError = Signal()
+    timeOverlapError = Signal(str)
 
     def __init__(self):
         super().__init__()
@@ -65,7 +65,8 @@ class Bridge(QObject):
         surgeryDB = SurgeryDAO(self.surgery)
 #        surgeryDB.insertAllData()
         if not surgeryDB.insertAllData():
-            self.timeOverlapError.emit()
+            overlap_details = surgeryDB.getOverlapDetails()
+            self.timeOverlapError.emit(overlap_details)
 
 #    @Slot()
 #    def ShowErrorOverLap(self):

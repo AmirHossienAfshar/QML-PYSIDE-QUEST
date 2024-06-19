@@ -174,9 +174,6 @@ class SurgeryDAO:
         print("Duration Minutes:", duration_mins)
 
 
-#        start_database = []
-#        finish_database = []
-
         start_database = [0] * len(start_hours)
         finish_database = [0] * len(start_hours)
 
@@ -192,16 +189,23 @@ class SurgeryDAO:
 
         for i in (0 , len(start_hours)-1):
             if start_database[i] < thisStart and thisStart < finish_database[i]:
-                print("time overlap")
+                print("time overlap1")
+                self.overlapDetail = f"can not add surgery between {start_hours[i]}:{start_mins[i]} unitll {finish_database[i]//60}:{ finish_database[i]%60}"
                 return False
             if start_database[i] < thisFinish and thisFinish < finish_database[i]:
-                print("time overlap")
+                print("time overlap2")
+                self.overlapDetail = f"can not add surgery between {start_hours[i]}:{start_mins[i]} unitll {finish_database[i]//60}:{ finish_database[i]%60}"
                 return False
-            if thisStart < start_database[i] and finish_database[i] < thisFinish[i]:
-                print("time overlap")
+            if thisStart < start_database[i] and finish_database[i] < thisFinish:
+                print("time overlap3")
+                self.overlapDetail = f"can not add surgery between {start_hours[i]}:{start_mins[i]} unitll {finish_database[i]//60}:{ finish_database[i]%60}"
                 return False
 
         return True
+
+
+    def getOverlapDetails(self):
+        return self.overlapDetail
 
 
 

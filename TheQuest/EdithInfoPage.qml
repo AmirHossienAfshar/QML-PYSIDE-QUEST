@@ -14,8 +14,8 @@ ApplicationWindow {
     minimumWidth: 950
     minimumHeight: 400
 
-    function showErrorMessage() {
-            messageDialog.text = "Time overlap, surgery can't be done"
+    function showErrorMessage(details) {
+            messageDialog.text = "Time overlap, surgery can't be done\n" + details
             messageDialog.visible = true
         }
 
