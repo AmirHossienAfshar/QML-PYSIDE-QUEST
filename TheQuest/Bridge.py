@@ -1,5 +1,5 @@
 # This Python file uses the following encoding: utf-8
-from PySide6.QtCore import QObject, Slot
+from PySide6.QtCore import QObject, Slot, Signal
 from Patient import Patient
 from Anesthesiologist import Anesthesiologist
 from Surgeon import Surgeon
@@ -10,6 +10,9 @@ from Surgery import Surgery
 from SurgeryDAO import SurgeryDAO
 
 class Bridge(QObject):
+
+    timeOverlapError = Signal()
+
     def __init__(self):
         super().__init__()
         self.patient = None
@@ -60,4 +63,10 @@ class Bridge(QObject):
     def compeletedObject(self):
         self.surgery = Surgery(self.patient, self.surgeon, self.anesthesiologist, self.surgeryType, self.surgeryTeam, self.time)
         surgeryDB = SurgeryDAO(self.surgery)
-        surgeryDB.insertAllData()
+#        surgeryDB.insertAllData()
+        if not surgeryDB.insertAllData():
+            self.timeOverlapError.emit()
+
+#    @Slot()
+#    def ShowErrorOverLap(self):
+#        self.timeOverlapError.emit()

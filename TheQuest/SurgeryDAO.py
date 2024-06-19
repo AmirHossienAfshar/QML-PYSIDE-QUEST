@@ -28,7 +28,9 @@ class SurgeryDAO:
 
             if all(id != -1 for id in [time_id, patient_id, surgeon_id, anesthetist_id, surgeryType_id,team_id]):
                 self.insertToSurgeryTable(time_id, patient_id, surgeon_id, anesthetist_id, surgeryType_id, team_id)
-
+                return True
+        else:
+            return False
 
     def insertToTimeTable(self):
         print("TimeTable is now calld.")

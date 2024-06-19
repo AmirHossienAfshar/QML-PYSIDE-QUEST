@@ -2,6 +2,8 @@ import QtQuick
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts
+import QtQuick.Dialogs
+
 
 ApplicationWindow {
     visible: true
@@ -11,6 +13,23 @@ ApplicationWindow {
 
     minimumWidth: 950
     minimumHeight: 400
+
+    function showErrorMessage() {
+            messageDialog.text = "Time overlap, surgery can't be done"
+            messageDialog.visible = true
+        }
+
+    MessageDialog {
+        id: messageDialog
+        title: "Error"
+        text: ""
+        visible: false
+        //standardButtons: StandardButton.Ok
+    }
+
+    Component.onCompleted: {
+        Bridge.timeOverlapError.connect(showErrorMessage)
+    }
 
     ColumnLayout{
         id: mainLayout
