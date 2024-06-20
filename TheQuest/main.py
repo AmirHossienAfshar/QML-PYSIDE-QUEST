@@ -2,18 +2,26 @@ import sys
 from PySide6.QtWidgets import QApplication
 from PySide6.QtQml import QQmlApplicationEngine
 from Bridge import Bridge
+from DatabaseModels import SurgeryModel
+from SurgeryDAO import SurgeryDAO
 
 
 #if name == "__main__":
 app = QApplication(sys.argv)
 
+con = SurgeryDAO(None)
+con.creatConnection()
 
 
 engine = QQmlApplicationEngine()
 bridge = Bridge()
+model = SurgeryModel()
 
 engine.rootContext().setContextProperty("Bridge", bridge)
-engine.load('EdithInfoPage.qml')
+engine.rootContext().setContextProperty("surgeryModel", model)
+#engine.load('EdithInfoPage.qml')
+engine.load('RoomOperations.qml')
+
 
 if not engine.rootObjects():
     sys.exit(-1)

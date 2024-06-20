@@ -68,6 +68,3 @@ class Bridge(QObject):
             overlap_details = surgeryDB.getOverlapDetails()
             self.timeOverlapError.emit(overlap_details)
 
-#    @Slot()
-#    def ShowErrorOverLap(self):
-#        self.timeOverlapError.emit()

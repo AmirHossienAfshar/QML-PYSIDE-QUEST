@@ -2,9 +2,12 @@
     "files": [
         "Anesthesiologist.py",
         "Bridge.py",
+        "DatabaseModels.py",
         "EdithInfoPage.qml",
         "Patient.py",
         "Person.py",
+        "RoomOperations.qml",
+        "Rooms.qml",
         "Surgeon.py",
         "Surgery.py",
         "SurgeryDAO.py",
