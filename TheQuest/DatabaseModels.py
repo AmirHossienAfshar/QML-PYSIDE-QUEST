@@ -66,34 +66,3 @@ class SurgeryModel(QSqlTableModel):
             Qt.UserRole + 3: QByteArray(b"surgeonName")
         }
         return roles
-
-
-
-''' a simple sample that I tried and worked like a charm, befor
-
-class PersonModel(QSqlTableModel):
-    def __init__(self, parent=None):
-        super().__init__(parent)
-        self.setTable("Person")
-        self.select()
-
-    def data(self, index, role=Qt.DisplayRole):
-
-        if not index.isValid():
-            return None
-
-        if role < Qt.UserRole:
-            return super().data(index, role)
-
-        record = self.record(index.row())
-
-        if role == Qt.UserRole + 1:
-            return record.value("name")
-        elif role == Qt.UserRole + 2:
-            return record.value("age")
-        elif role == Qt.UserRole + 3:
-            return record.value("lastname")
-
-        return None
-
-'''

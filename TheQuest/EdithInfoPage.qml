@@ -15,9 +15,10 @@ ApplicationWindow {
     minimumHeight: 400
 
     function showErrorMessage(details) {
-            messageDialog.text = "Time overlap, surgery can't be done\n" + details
-            messageDialog.visible = true
-        }
+        messageDialog.text = "Time overlap, surgery can't be done\n" + details
+        messageDialog.visible = true
+    }
+
 
     MessageDialog {
         id: messageDialog
@@ -29,6 +30,11 @@ ApplicationWindow {
 
     Component.onCompleted: {
         Bridge.timeOverlapError.connect(showErrorMessage)
+    }
+
+    StackView {
+        id: stackView
+        initialItem: null
     }
 
     ColumnLayout{
@@ -535,4 +541,3 @@ ApplicationWindow {
         }
     }
 }
-
