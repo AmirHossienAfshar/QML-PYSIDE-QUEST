@@ -331,3 +331,82 @@ class SurgeryDAO:
                 print(f"No patient found with ID {surgeryID}")
         else:
             print(f"Query failed: {query.lastError().text()}")
+
+
+    def UpdatePatientTable(self, id, patientName, patientAge, patientCompanion, patientPhoneNumber):
+        self.creatConnection()
+        query = QSqlQuery()
+        query.prepare("UPDATE Patient SET name = :name, age = :age, companion = :companion, phoneNumber = :phoneNumber WHERE patient_ID = :id")
+        query.bindValue(":name", patientName)
+        query.bindValue(":age", patientAge)
+        query.bindValue(":companion", patientCompanion)
+        query.bindValue(":phoneNumber", patientPhoneNumber)
+        query.bindValue(":id", id)
+
+        if query.exec():
+            return True
+        else:
+            print(f"Update failed: {query.lastError().text()}")
+            return False
+
+
+    def UpdateSurgeonTable(self, id, SurgeonName, SurgeonExperties):
+        self.creatConnection()
+        query = QSqlQuery()
+        query.prepare("UPDATE Surgeon SET name = :name, experties = :experties WHERE sergeon_ID = :id")
+        query.bindValue(":name", SurgeonName)
+        query.bindValue(":experties", SurgeonExperties)
+        query.bindValue(":id", id)
+
+        if query.exec():
+            return True
+        else:
+            print(f"Update failed: {query.lastError().text()}")
+            return False
+
+
+    def UpdateAnethTable(self, id, AnethName, AnethExperties):
+        self.creatConnection()
+        query = QSqlQuery()
+        query.prepare("UPDATE Aneth SET name = :name, experties = :experties WHERE aneth_ID = :id")
+        query.bindValue(":name", AnethName)
+        query.bindValue(":experties", AnethExperties)
+        query.bindValue(":id", id)
+
+        if query.exec():
+            return True
+        else:
+            print(f"Update failed: {query.lastError().text()}")
+            return False
+
+
+    def UpdateSurgeryTypeTable(self, id, surgeryType, AnethType):
+        self.creatConnection()
+        query = QSqlQuery()
+        query.prepare("UPDATE SurgeryType SET surgeryType = :surgeryType, AnethType = :AnethType WHERE surgeryType_ID = :id")
+        query.bindValue(":surgeryType", surgeryType)
+        query.bindValue(":AnethType", AnethType)
+        query.bindValue(":id", id)
+
+        if query.exec():
+            return True
+        else:
+            print(f"Update failed: {query.lastError().text()}")
+            return False
+
+
+    def UpdateSurgeryTeamTable(self, id,  AssestSurgen, NurseAnes, ScrubNurse, CirculatingNure):
+        self.creatConnection()
+        query = QSqlQuery()
+        query.prepare("UPDATE SurgeryTeam SET AssestSurgen = :AssestSurgen, NurseAnes = :NurseAnes, ScrubNurse = :ScrubNurse, CirculatingNure = :CirculatingNure WHERE surgeryTeam_ID = :id")
+        query.bindValue(":AssestSurgen", AssestSurgen)
+        query.bindValue(":NurseAnes", NurseAnes)
+        query.bindValue(":ScrubNurse", ScrubNurse)
+        query.bindValue(":CirculatingNure", CirculatingNure)
+        query.bindValue(":id", id)
+
+        if query.exec():
+            return True
+        else:
+            print(f"Update failed: {query.lastError().text()}")
+            return False

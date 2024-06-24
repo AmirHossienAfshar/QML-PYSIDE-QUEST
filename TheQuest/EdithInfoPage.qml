@@ -49,7 +49,6 @@ Page {
             Bridge.requestSurgeryTeamInfo(rowNumber+1);
             Bridge.requestTimeInfo(rowNumber+1);
 
-
             creatSurgery.visible = false
             creatSurgery.enabled = false
         }
@@ -620,6 +619,13 @@ Page {
                         id: upadteSurgry
                         text: "update the surgery"
                         onClicked: {
+
+                            Bridge.updatePatientInfo(rowNumber+1, patientName.text, age.text, companion.text, phoneNumber.text);
+                            Bridge.updateSurgeonInfo(rowNumber+1, surgeon.text, surgeonExperties.text)
+                            Bridge.updateAnethInfo(rowNumber+1, anesthesiologist.text, anesthesiologistExperties.text)
+                            Bridge.updateSurgeryTypeInfo(rowNumber+1, surgery.text, anesthesia.text)
+                            Bridge.updateSurgeryTeamInfo(rowNumber+1, assestSergeon.text, nurseAnes.text, scrubNurse.text, circulatingNurse.text)
+
                             stackView.pop()
                         }
                     }
@@ -628,3 +634,4 @@ Page {
         }
     }
 }
+

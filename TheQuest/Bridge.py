@@ -178,3 +178,26 @@ class Bridge(QObject):
             self.TimeFetched.emit(result[0], result[1], result[2], result[3], result[4], result[5], result[6])
         else:
             print(f"Failed to fetch patient data for ID {surgeryID}")
+
+
+    @Slot(int, str, str, str, str)
+    def updatePatientInfo(self, id, PatientName, PatientAge, PatientCompanion, PatientPhoneNumber):
+        self.Dao.UpdatePatientTable(id, PatientName, PatientAge, PatientCompanion, PatientPhoneNumber)
+
+    @Slot(int, str, str)
+    def updateSurgeonInfo(self, id, SurgeonName, SurgeonExperties):
+        self.Dao.UpdateSurgeonTable(id, SurgeonName, SurgeonExperties)
+
+    @Slot(int, str, str)
+    def updateAnethInfo(self, id, AnethName, AnethExperties):
+        self.Dao.UpdateAnethTable(id, AnethName, AnethExperties)
+
+    @Slot(int, str, str)
+    def updateSurgeryTypeInfo(self, id, surgeryType, AnethType):
+        self.Dao.UpdateSurgeryTypeTable(id, surgeryType, AnethType)
+
+    @Slot(int, str, str, str, str)
+    def updateSurgeryTeamInfo(self, id, AssestSurgen, NurseAnes, ScrubNurse, CirculatingNure):
+        self.Dao.UpdateSurgeryTeamTable(id, AssestSurgen, NurseAnes, ScrubNurse, CirculatingNure)
+
+
