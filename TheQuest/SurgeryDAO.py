@@ -13,7 +13,7 @@ class SurgeryDAO:
             print("Unable to establish a database connection.")
             return False
 
-        print("connection is made now")
+        #print("connection is made now")
         return True
 
 
@@ -33,7 +33,7 @@ class SurgeryDAO:
             return False
 
     def insertToTimeTable(self):
-        print("TimeTable is now calld.")
+        #print("TimeTable is now calld.")
         self.creatConnection()
         query = QSqlQuery()
         query.prepare("INSERT INTO Time (startSurgeryHour, startSurgeryMin, surgeryDurHour, surgeryDurMin, day, month, year) VALUES (?, ?,? ,?, ?, ?, ?)")
@@ -51,7 +51,7 @@ class SurgeryDAO:
 
 
     def insertToPatientTable(self):
-        print("TimeTable is now calld.")
+        #print("TimeTable is now calld.")
         self.creatConnection()
         query = QSqlQuery()
         query.prepare("INSERT INTO Patient (name, age, companion, phoneNumber) VALUES (?, ?, ?, ?)")
@@ -66,7 +66,7 @@ class SurgeryDAO:
 
 
     def insertToSurgeonTable(self):
-        print("SurgeonTable is now calld.")
+        #print("SurgeonTable is now calld.")
         self.creatConnection()
         query = QSqlQuery()
         query.prepare("INSERT INTO Surgeon (name, experties) VALUES (?, ?)")
@@ -79,7 +79,7 @@ class SurgeryDAO:
 
 
     def insertToAnethTable(self):
-        print("AnethTable is now calld.")
+        #print("AnethTable is now calld.")
         self.creatConnection()
         query = QSqlQuery()
         query.prepare("INSERT INTO Aneth (name, experties) VALUES (?, ?)")
@@ -92,7 +92,7 @@ class SurgeryDAO:
 
 
     def insertToSurgeryTypeTable(self):
-        print("SurgeryType is now calld.")
+        #print("SurgeryType is now calld.")
         self.creatConnection()
         query = QSqlQuery()
         query.prepare("INSERT INTO SurgeryType (surgeryType, AnethType) VALUES (?, ?)")
@@ -105,7 +105,7 @@ class SurgeryDAO:
 
 
     def insertToSurgeryTeamTable(self):
-        print("SurgeryTeam is now calld.")
+        #print("SurgeryTeam is now calld.")
         self.creatConnection()
         query = QSqlQuery()
         query.prepare("INSERT INTO SurgeryTeam (AssestSurgen, NurseAnes, ScrubNurse, CirculatingNure) VALUES (?, ?, ?, ?)")
@@ -120,7 +120,7 @@ class SurgeryDAO:
 
 
     def insertToSurgeryTable(self, time_id, patient_id, surgeon_id, anesthetist_id, surgeryType_id, team_id):
-        print("SurgeryTable is now called.")
+        #print("SurgeryTable is now called.")
         self.creatConnection()
         query = QSqlQuery()
         query.prepare("INSERT INTO Surgery (time_ID, patient_ID, surgeon_ID, aneth_ID, team_ID,surgeryType_ID, roomNumber) VALUES (?, ?, ?, ?, ?, ?, ?)")
@@ -167,12 +167,12 @@ class SurgeryDAO:
         else:
             print(f"Query error: {query.lastError().text()}")
 
-
+        '''
         print("Start Hours:", start_hours)
         print("Start Minutes:", start_mins)
         print("Duration Hours:", duration_hours)
         print("Duration Minutes:", duration_mins)
-
+        '''
 
         start_database = [0] * len(start_hours)
         finish_database = [0] * len(start_hours)
@@ -208,11 +208,46 @@ class SurgeryDAO:
         return self.overlapDetail
 
 
+    def getPatientTable(self, surgeryID):
+        self.creatConnection()
+        query = QSqlQuery()
+        query.prepare("SELECT name, age, companion, phoneNumber FROM Patient WHERE patient_ID = :id")
+        query.bindValue(":id", surgeryID)
+
+        if query.exec():
+            if query.next():
+                name = query.value(0)
+                PatientAge = query.value(1)
+                companionName = query.value(2)
+                phoneNumber = query.value(3)
+
+                # Emit the fetched data through the signal
+                # self.patientDataFetched.emit(name, age, companionName, phoneNumber)
+                print(name, PatientAge, companionName, phoneNumber)
+                return (name, PatientAge, companionName, phoneNumber)
+            else:
+                print(f"No patient found with ID {surgeryID}")
+        else:
+            print(f"Query failed: {query.lastError().text()}")
 
 
+    def getSergeonTable(self, surgeryID):
+        self.creatConnection()
+        query = QSqlQuery()
+        query.prepare("SELECT name, experties FROM Surgeon WHERE sergeon_ID = :id")
+        query.bindValue(":id", surgeryID)
 
+        if query.exec():
+            if query.next():
+                SurgeonName = query.value(0)
+                sergeonExperties = query.value(1)
 
-
-
-
+                # Emit the fetched data through the signal
+                # self.patientDataFetched.emit(name, age, companionName, phoneNumber)
+                print(SurgeonName, sergeonExperties)
+                return (SurgeonName, sergeonExperties)
+            else:
+                print(f"No patient found with ID {surgeryID}")
+        else:
+            print(f"Query failed: {query.lastError().text()}")
 

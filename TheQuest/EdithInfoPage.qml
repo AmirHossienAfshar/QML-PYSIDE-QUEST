@@ -8,14 +8,8 @@ import QtQuick.Dialogs
 Page {
     id: edithPage
     visible: true
-    /*width: 1000
-    height: 600*/
-    /*width: parent.width
-    height: parent.height*/ // no need for this
+    property int rowNumber: -1  // Assuming this property is set by the parent
     title: "Edith Info Page"
-
-    /*minimumWidth: 950
-    minimumHeight: 400*/ // this is needed but handeld in the main.qml
 
     function showErrorMessage(details) {
         messageDialog.text = "Time overlap, surgery can't be done\n" + details
@@ -24,6 +18,7 @@ Page {
 
     function navigateToNextPage() {
         stackView.pop()
+        Bridge.newSurgeryAddedSignal()
     }
 
     MessageDialog {
@@ -36,7 +31,44 @@ Page {
     Component.onCompleted: {
         Bridge.timeOverlapError.connect(showErrorMessage)
         Bridge.insertionSuccess.connect(navigateToNextPage)
+        console.log("Navigated to EdithInfoPage with row number:", rowNumber);
+
+        Bridge.patientDataFetched.connect(onPatientDataFetched);
+        Bridge.SurgeryDataFetched.connect(onSurgeonDataFetched);
+        if (rowNumber !== -1) {
+            Bridge.requestPatientInfo(rowNumber+1);
+            Bridge.requestSurgeonInfo(rowNumber+1);
+            creatSurgery.visible = false
+            creatSurgery.enabled = false
+        }
+        else
+        {
+            upadteSurgry.visible = false
+            upadteSurgry.enabled = false
+        }
+
     }
+
+    function onPatientDataFetched(name, PatientAge, companionName, patientPhoneNumber) {
+        console.log("Received patient data: this is consul", name, PatientAge, companionName, patientPhoneNumber);
+        patientName.text = name;
+        age.text = PatientAge;
+        companion.text = companionName;
+        phoneNumber.text = patientPhoneNumber;
+    }
+
+    function onSurgeonDataFetched(surgeonName, SurgeonExperties) {
+        console.log("Received patient data: this is consul",surgeonName, SurgeonExperties);
+        surgeon.text = surgeonName
+        surgeonExperties.text = SurgeonExperties
+    }
+
+
+    /*Connections {
+        target: Bridge
+        onSurgeryAdded: stackView.pop() // Navigate back when surgery is added
+        onTimeOverlapError: errorDialog.showErrorMessage(details)
+    }*/
 
     ColumnLayout{
         id: mainLayout
@@ -49,7 +81,7 @@ Page {
             Layout.fillHeight:  true
 
             anchors.fill: parent
-            anchors.margins: appWindow.margin
+            //anchors.margins: appWindow.margin
 
 
             GroupBox { // patient info
@@ -103,11 +135,16 @@ Page {
                                 model.append({text: editText})
                         }
                     }
+
+                    /*Label {
+                        text: "this is the ID" + rowNumber
+                    }*/
+
                     TextField {
                         id: patientName
                         Layout.fillWidth: true
                         color: "black"
-                        placeholderText: "Start typing..."
+                        placeholderText: "Start typing..." + rowNumber
                     }
                     TextField {
                         id: age
@@ -496,8 +533,8 @@ Page {
                     anchors.fill: parent
                     Layout.fillHeight:  true
                     Button {
-
-                        text: "Create Person"
+                        id: creatSurgery
+                        text: "Create Surgery"
                         onClicked: {
                             Bridge.creatPatientObject(patientName.text,
                                                       age.text,
@@ -526,16 +563,21 @@ Page {
 
                             Bridge.creatSurgeryTypeObject(surgery.text, anesthesia.text)
                             Bridge.compeletedObject()
-                            //stackView.pop()
 
                         }
                     }
 
                     Button {
-
-                        text: "Print Person's Name"
+                        id: backToRoom
+                        text: "back to surgeries"
                         onClicked: {
-                            Bridge.printPersonName()
+                            stackView.pop()
+                        }
+                    }
+                    Button {
+                        id: upadteSurgry
+                        text: "update the surgery"
+                        onClicked: {
                             stackView.pop()
                         }
                     }

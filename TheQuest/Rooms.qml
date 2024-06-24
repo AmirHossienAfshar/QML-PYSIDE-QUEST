@@ -6,15 +6,17 @@ ApplicationWindow {
     width: 1000
     height: 600
     minimumWidth: 950
-    minimumHeight: 400
+    minimumHeight: 400 // the minimum size of the EdithInfoPage.qml
+
+
+
     StackView {
         id: stackView
         initialItem: "RoomOperations.qml"
         //initialItem: "EdithInfoPage.qml"
         anchors.fill: parent
-        //onStatusChanged: console.log("StackView status changed:", status)
         onCurrentItemChanged: {
-            console.log("Current item changed to:", stackView.currentItem);
+            //console.log("Current item changed to:", stackView.currentItem);
         }
     }
 }

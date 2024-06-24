@@ -1,5 +1,5 @@
 # This Python file uses the following encoding: utf-8
-from PySide6.QtCore import QObject, Slot, Signal
+from PySide6.QtCore import QObject, Slot, Signal, QAbstractTableModel
 from Patient import Patient
 from Anesthesiologist import Anesthesiologist
 from Surgeon import Surgeon
@@ -8,12 +8,18 @@ from Time import Time
 from SurgeryType import SurgeryType
 from Surgery import Surgery
 from SurgeryDAO import SurgeryDAO
+from DatabaseModels import SurgeryModel
+from PySide6.QtSql import QSqlTableModel
 
 class Bridge(QObject):
 
     timeOverlapError = Signal(str)
     insertionSuccess = Signal()
 
+    updatedModel = Signal(QAbstractTableModel)
+
+    patientDataFetched = Signal(str, str, str, str)
+    SurgeryDataFetched = Signal(str, str)
 
     def __init__(self):
         super().__init__()
@@ -24,6 +30,7 @@ class Bridge(QObject):
         self.time = None
         self.surgeryType = None
         self.surgery = None
+        self.Dao = SurgeryDAO(self.surgery)
 
     @Slot()
     def printPersonName(self):
@@ -70,5 +77,73 @@ class Bridge(QObject):
             overlap_details = surgeryDB.getOverlapDetails()
             self.timeOverlapError.emit(overlap_details)
         else:
+#            self.surgeryAdded.emit()
             self.insertionSuccess.emit()
+
+#    @Slot()
+#    def newSurgeryAddedModelUpdated(self):
+#        print ("the model here should be updated, the signal of ypdate is here sent")
+#        self.modelUpdated.emit()
+
+#    @Slot()
+#    def refreshSurgeryModel(self):
+#        self.surgeryModel.fetch_data()
+#        self.modelUpdated.emit()
+
+    @Slot()
+    def newSurgeryAddedSignal(self):
+        print("I have heard of some changes")
+        #UpdatedModel = SurgeryModel()
+        #self.sendSignalBack(UpdatedModel)
+        newModel = SurgeryModel()
+        newModel.fetch_data()
+        print("New model data:", newModel.data_list)  # Debugging statement
+        self.updatedModel.emit(newModel)
+        print("New model emitted", newModel)  # Debugging statement
+
+
+
+    @Slot()
+    def sendSignalBack(self, newModel):
+        pass
+
+
+    @Slot(int)
+    def requestTofillTable(self, surgeryID):
+        print("request is sent", surgeryID)
+
+
+    @Slot(int)
+    def requestPatientInfo(self, surgeryID):
+        '''
+        name = "hasan"
+        number = "225"
+        companionName = "kachal"
+        phoneNumber = "0915765"
+        self.patientDataFetched.emit(name, number, companionName, phoneNumber)
+                #return name, age, companionName, phoneNumber
+        #self.patientDataFetched.emit("hasan","225","kachal","0915765")
+        '''
+        #Dao = SurgeryDAO(self.surgry)
+        #resualt = Dao.getPatientTable(surgeryID)
+
+        result = self.Dao.getPatientTable(surgeryID)
+        print ("this is the bridge", result[0], result[1], result[2], result[3])
+        if result is not None:
+            # Unpack the tuple and emit the signal with individual arguments
+            self.patientDataFetched.emit(result[0], str(result[1]), result[2], str(result[3]))
+        else:
+            print(f"Failed to fetch patient data for ID {surgeryID}")
+
+
+    @Slot(int)
+    def requestSurgeonInfo(self, surgeryID):
+        result = self.Dao.getSergeonTable(surgeryID)
+        print ("this is the bridge", result[0], result[1])
+        if result is not None:
+            self.SurgeryDataFetched.emit(result[0], str(result[1]))
+        else:
+            print(f"Failed to fetch patient data for ID {surgeryID}")
+
+
 

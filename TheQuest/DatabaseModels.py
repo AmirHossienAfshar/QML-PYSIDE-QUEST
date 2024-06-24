@@ -1,5 +1,5 @@
 # This Python file uses the following encoding: utf-8
-from PySide6.QtSql import QSqlDatabase, QSqlQuery, QSqlTableModel
+from PySide6.QtSql import QSqlQuery, QSqlTableModel
 from PySide6.QtCore import Qt, QByteArray, QModelIndex
 
 class SurgeryModel(QSqlTableModel):
@@ -11,6 +11,7 @@ class SurgeryModel(QSqlTableModel):
         self.fetch_data()
 
     def fetch_data(self):
+        self.data_list.clear()  # Clear previous data ///////////////////////////////////////////////////
         query_str = """
             SELECT Time.startSurgeryHour, Patient.name AS patientName, Surgeon.name AS surgeonName
             FROM Surgery
