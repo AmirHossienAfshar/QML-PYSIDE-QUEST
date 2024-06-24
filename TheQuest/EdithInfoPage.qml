@@ -35,9 +35,21 @@ Page {
 
         Bridge.patientDataFetched.connect(onPatientDataFetched);
         Bridge.SurgeryDataFetched.connect(onSurgeonDataFetched);
+        Bridge.AnethDataFetched.connect(onAnethDataFetched);
+        Bridge.SurgeryTypeDataFetched.connect(onSurgeryTypeFetched);
+        Bridge.SurgeryTypeTeamFetched.connect(onSurgeryTeamFetched);
+        Bridge.TimeFetched.connect(onTimeFetched);
+
+
         if (rowNumber !== -1) {
             Bridge.requestPatientInfo(rowNumber+1);
             Bridge.requestSurgeonInfo(rowNumber+1);
+            Bridge.requestAnethInfo(rowNumber+1);
+            Bridge.requestSurgeryTypeInfo(rowNumber+1);
+            Bridge.requestSurgeryTeamInfo(rowNumber+1);
+            Bridge.requestTimeInfo(rowNumber+1);
+
+
             creatSurgery.visible = false
             creatSurgery.enabled = false
         }
@@ -58,11 +70,41 @@ Page {
     }
 
     function onSurgeonDataFetched(surgeonName, SurgeonExperties) {
-        console.log("Received patient data: this is consul",surgeonName, SurgeonExperties);
+        console.log("Received patient data: this is consul", surgeonName, SurgeonExperties);
         surgeon.text = surgeonName
         surgeonExperties.text = SurgeonExperties
     }
 
+    function onAnethDataFetched(anethName, anethExperties) {
+        console.log("Received patient data: this is consul", anethName, anethExperties);
+        anesthesiologist.text = anethName
+        anesthesiologistExperties.text = anethExperties
+    }
+
+    function onSurgeryTypeFetched(SurgeryType, AnethType) {
+        console.log("Received patient data: this is consul", SurgeryType, AnethType);
+        surgery.text = SurgeryType
+        anesthesia.text = AnethType
+    }
+
+    function onSurgeryTeamFetched(AssestSurgen, NurseAnes, ScrubNurse, CirculatingNure) {
+        console.log("Received patient data: this is consul", AssestSurgen, NurseAnes, ScrubNurse, CirculatingNure);
+        assestSergeon.text = AssestSurgen;
+        nurseAnes.text = NurseAnes;
+        scrubNurse.text = ScrubNurse;
+        circulatingNurse.text = CirculatingNure;
+    }
+
+    function onTimeFetched(startSurgeryHour, startSurgeryMin, surgeryDurHour, surgeryDurMin, day, month, year) {
+        //console.log("Received patient data: this is consul", AssestSurgen, NurseAnes, ScrubNurse, CirculatingNure);
+        hoursSliderDuration.value = surgeryDurHour
+        minutesSliderDuration.value = surgeryDurMin
+        hoursSliderStart.value = startSurgeryHour
+        minutesSliderStart.value = startSurgeryMin
+        dayComboBox.currentIndex = day
+        monthComboBox.currentIndex = month
+        yearComboBox.currentIndex = year
+    }
 
     /*Connections {
         target: Bridge

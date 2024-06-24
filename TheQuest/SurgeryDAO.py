@@ -242,8 +242,6 @@ class SurgeryDAO:
                 SurgeonName = query.value(0)
                 sergeonExperties = query.value(1)
 
-                # Emit the fetched data through the signal
-                # self.patientDataFetched.emit(name, age, companionName, phoneNumber)
                 print(SurgeonName, sergeonExperties)
                 return (SurgeonName, sergeonExperties)
             else:
@@ -251,3 +249,85 @@ class SurgeryDAO:
         else:
             print(f"Query failed: {query.lastError().text()}")
 
+
+    def getAnethTable(self, surgeryID):
+        self.creatConnection()
+        query = QSqlQuery()
+        query.prepare("SELECT name, experties FROM Aneth WHERE aneth_ID = :id")
+        query.bindValue(":id", surgeryID)
+
+        if query.exec():
+            if query.next():
+                AnethName = query.value(0)
+                AnethExperties = query.value(1)
+
+                print(AnethName, AnethExperties)
+                return (AnethName, AnethExperties)
+            else:
+                print(f"No patient found with ID {surgeryID}")
+        else:
+            print(f"Query failed: {query.lastError().text()}")
+
+    def getSurgeryTypeTable(self, surgeryID):
+        self.creatConnection()
+        query = QSqlQuery()
+        query.prepare("SELECT surgeryType, AnethType FROM SurgeryType WHERE surgeryType_ID = :id")
+        query.bindValue(":id", surgeryID)
+
+        if query.exec():
+            if query.next():
+                surgeryType = query.value(0)
+                AnethType = query.value(1)
+
+                print(surgeryType, AnethType)
+                return (surgeryType, AnethType)
+            else:
+                print(f"No patient found with ID {surgeryID}")
+        else:
+            print(f"Query failed: {query.lastError().text()}")
+
+
+
+    def getSurgeryTeamTable(self, surgeryID):
+        self.creatConnection()
+        query = QSqlQuery()
+        query.prepare("SELECT AssestSurgen, NurseAnes, ScrubNurse, CirculatingNure FROM SurgeryTeam WHERE surgeryTeam_ID = :id")
+        query.bindValue(":id", surgeryID)
+
+        if query.exec():
+            if query.next():
+                AssestSurgen = query.value(0)
+                NurseAnes = query.value(1)
+                ScrubNurse = query.value(2)
+                CirculatingNure = query.value(3)
+
+                print(AssestSurgen, NurseAnes, ScrubNurse, CirculatingNure)
+                return (AssestSurgen, NurseAnes, ScrubNurse, CirculatingNure)
+            else:
+                print(f"No patient found with ID {surgeryID}")
+        else:
+            print(f"Query failed: {query.lastError().text()}")
+
+
+    def getTimeTable(self, surgeryID):
+        self.creatConnection()
+        query = QSqlQuery()
+        query.prepare("SELECT startSurgeryHour, startSurgeryMin, surgeryDurHour, surgeryDurMin, day, month, year FROM Time WHERE time_ID = :id")
+        query.bindValue(":id", surgeryID)
+
+        if query.exec():
+            if query.next():
+                startSurgeryHour = query.value(0)
+                startSurgeryMin = query.value(1)
+                surgeryDurHour = query.value(2)
+                surgeryDurMin = query.value(3)
+                day = query.value(4)
+                month = query.value(5)
+                year = query.value(6)
+
+                print(startSurgeryHour, startSurgeryMin, surgeryDurHour, surgeryDurMin, day, month, year)
+                return (startSurgeryHour, startSurgeryMin, surgeryDurHour, surgeryDurMin, day, month, year)
+            else:
+                print(f"No patient found with ID {surgeryID}")
+        else:
+            print(f"Query failed: {query.lastError().text()}")

@@ -20,6 +20,10 @@ class Bridge(QObject):
 
     patientDataFetched = Signal(str, str, str, str)
     SurgeryDataFetched = Signal(str, str)
+    AnethDataFetched = Signal(str, str)
+    SurgeryTypeDataFetched = Signal(str, str)
+    SurgeryTypeTeamFetched = Signal(str, str, str, str)
+    TimeFetched = Signal (int, int, int, int, int, str, int)
 
     def __init__(self):
         super().__init__()
@@ -115,18 +119,6 @@ class Bridge(QObject):
 
     @Slot(int)
     def requestPatientInfo(self, surgeryID):
-        '''
-        name = "hasan"
-        number = "225"
-        companionName = "kachal"
-        phoneNumber = "0915765"
-        self.patientDataFetched.emit(name, number, companionName, phoneNumber)
-                #return name, age, companionName, phoneNumber
-        #self.patientDataFetched.emit("hasan","225","kachal","0915765")
-        '''
-        #Dao = SurgeryDAO(self.surgry)
-        #resualt = Dao.getPatientTable(surgeryID)
-
         result = self.Dao.getPatientTable(surgeryID)
         print ("this is the bridge", result[0], result[1], result[2], result[3])
         if result is not None:
@@ -147,3 +139,42 @@ class Bridge(QObject):
 
 
 
+    @Slot(int)
+    def requestAnethInfo(self, surgeryID):
+        result = self.Dao.getAnethTable(surgeryID)
+        print ("this is the bridge", result[0], result[1])
+        if result is not None:
+            self.AnethDataFetched.emit(result[0], str(result[1]))
+        else:
+            print(f"Failed to fetch patient data for ID {surgeryID}")
+
+
+    @Slot(int)
+    def requestSurgeryTypeInfo(self, surgeryID):
+        result = self.Dao.getSurgeryTypeTable(surgeryID)
+        print ("this is the bridge", result[0], result[1])
+        if result is not None:
+            self.SurgeryTypeDataFetched.emit(result[0], str(result[1]))
+        else:
+            print(f"Failed to fetch patient data for ID {surgeryID}")
+
+
+    @Slot(int)
+    def requestSurgeryTeamInfo(self, surgeryID):
+        result = self.Dao.getSurgeryTeamTable(surgeryID)
+
+        if result is not None:
+            self.SurgeryTypeTeamFetched.emit(result[0], result[1], result[2], result[3])
+        else:
+            print(f"Failed to fetch patient data for ID {surgeryID}")
+
+
+    #print(startSurgeryHour, startSurgeryMin, surgeryDurHour, surgeryDurMin, day, month, year)
+    @Slot(int)
+    def requestTimeInfo(self, surgeryID):
+        result = self.Dao.getTimeTable(surgeryID)
+
+        if result is not None:
+            self.TimeFetched.emit(result[0], result[1], result[2], result[3], result[4], result[5], result[6])
+        else:
+            print(f"Failed to fetch patient data for ID {surgeryID}")
