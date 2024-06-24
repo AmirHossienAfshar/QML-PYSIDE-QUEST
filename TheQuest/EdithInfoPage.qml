@@ -5,36 +5,37 @@ import QtQuick.Layouts
 import QtQuick.Dialogs
 
 
-ApplicationWindow {
+Page {
+    id: edithPage
     visible: true
-    width: 1000
-    height: 550
+    /*width: 1000
+    height: 600*/
+    /*width: parent.width
+    height: parent.height*/ // no need for this
     title: "Edith Info Page"
 
-    minimumWidth: 950
-    minimumHeight: 400
+    /*minimumWidth: 950
+    minimumHeight: 400*/ // this is needed but handeld in the main.qml
 
     function showErrorMessage(details) {
         messageDialog.text = "Time overlap, surgery can't be done\n" + details
         messageDialog.visible = true
     }
 
+    function navigateToNextPage() {
+        stackView.pop()
+    }
 
     MessageDialog {
         id: messageDialog
         title: "Error"
         text: ""
         visible: false
-        //standardButtons: StandardButton.Ok
     }
 
     Component.onCompleted: {
         Bridge.timeOverlapError.connect(showErrorMessage)
-    }
-
-    StackView {
-        id: stackView
-        initialItem: null
+        Bridge.insertionSuccess.connect(navigateToNextPage)
     }
 
     ColumnLayout{
@@ -525,6 +526,7 @@ ApplicationWindow {
 
                             Bridge.creatSurgeryTypeObject(surgery.text, anesthesia.text)
                             Bridge.compeletedObject()
+                            //stackView.pop()
 
                         }
                     }
@@ -534,6 +536,7 @@ ApplicationWindow {
                         text: "Print Person's Name"
                         onClicked: {
                             Bridge.printPersonName()
+                            stackView.pop()
                         }
                     }
                 }

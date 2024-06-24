@@ -4,12 +4,13 @@ import QtQuick.Layouts 1.15
 import QtQuick.Window 2.2
 
 
-
-
-ApplicationWindow {
+Page {
+    id: newPage
     visible: true
-    width: 800
-    height: 600
+    /*width: 1000
+    height: 600*/
+    width: parent.width
+    height: parent.height
     title: qsTr("Surgery Schedule")
 
     RowLayout {
@@ -87,25 +88,20 @@ ApplicationWindow {
                 Button {
                     text: "New Surgery"
                     onClicked: {
-                        // Navigate to another page (e.g., using StackView)
-                        //stackView.push("EdithInfoPage.qml")
-                        stackView.push("EdithInfoPage.qml", { replace: true })
-                        stackView.pop()
+                        //stackView.push(edithPage)
+                        stackView.push("EdithInfoPage.qml")
                         console.log("New surgery, stack should append here");
                     }
                     Layout.alignment: Qt.AlignCenter
                     Layout.minimumWidth: 100
                 }
 
+
                 // Add more controls as needed
             }
         }
     }
 
-    StackView {
-        id: stackView
-        initialItem: null
-    }
 }
 
 

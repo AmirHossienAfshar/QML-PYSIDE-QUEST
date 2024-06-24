@@ -20,10 +20,12 @@ model = SurgeryModel()
 engine.rootContext().setContextProperty("Bridge", bridge)
 engine.rootContext().setContextProperty("surgeryModel", model)
 #engine.load('EdithInfoPage.qml')
-engine.load('RoomOperations.qml')
+#engine.load('RoomOperations.qml')
+engine.load("Rooms.qml")
 
 
 if not engine.rootObjects():
+    print("Error: QML file not loaded.")
     sys.exit(-1)
 sys.exit(app.exec())
 
