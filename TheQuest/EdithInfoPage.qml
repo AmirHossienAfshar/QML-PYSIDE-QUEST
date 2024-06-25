@@ -95,14 +95,22 @@ Page {
     }
 
     function onTimeFetched(startSurgeryHour, startSurgeryMin, surgeryDurHour, surgeryDurMin, day, month, year) {
-        //console.log("Received patient data: this is consul", AssestSurgen, NurseAnes, ScrubNurse, CirculatingNure);
+
         hoursSliderDuration.value = surgeryDurHour
         minutesSliderDuration.value = surgeryDurMin
         hoursSliderStart.value = startSurgeryHour
         minutesSliderStart.value = startSurgeryMin
-        dayComboBox.currentIndex = day
-        monthComboBox.currentIndex = month
-        yearComboBox.currentIndex = year
+        dayComboBox.currentIndex = day -1
+        //monthComboBox.currentIndex = month //////////////////////////////////////////
+
+        var monthNames = monthComboBox.model;
+        var monthIndex = monthNames.indexOf(month.toString());
+        monthComboBox.currentIndex = monthIndex;
+
+        var YearNames = yearComboBox.model;
+        var YearIndex = YearNames.indexOf(year.toString());
+        yearComboBox.currentIndex = YearIndex;
+
     }
 
     /*Connections {
@@ -439,7 +447,7 @@ Page {
                                     id: dayComboBox
                                     Layout.preferredWidth: 40
                                     Layout.fillWidth: true
-                                    model: ListModel
+                                    /*model: ListModel
                                     {
                                         Component.onCompleted:
                                         {
@@ -447,8 +455,9 @@ Page {
                                                 append({"text": i.toString()})
                                             }
                                         }
-                                    }
-                                    currentIndex : 0
+                                    }*/
+                                    model: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30"]
+                                    //currentIndex : 0
                                 }
                             }
 
@@ -474,14 +483,15 @@ Page {
                                     id: yearComboBox
                                     Layout.preferredWidth: 60
                                     Layout.fillWidth: true
-                                    model: ListModel {
+                                    /*model: ListModel {
                                         Component.onCompleted: {
                                             for (var i = 2024; i <= 2024; i++) {
                                                 append({"text": i.toString()})
                                             }
                                         }
-                                    }
-                                    currentIndex : 0
+                                    }*/
+                                    model: ["2024", "2025", "2026"]  // Replace with your range of years
+                                    //currentIndex : 0
                                 }
                             }
 
@@ -620,12 +630,20 @@ Page {
                         text: "update the surgery"
                         onClicked: {
 
+                            var monthNames = monthComboBox.model;
+                            var MonthComponent = monthNames.indexOf(monthComboBox.currentIndex);
+                            //monthComboBox.currentIndex = monthIndex;
+                            //monthComboBox.currentText
+
                             Bridge.updatePatientInfo(rowNumber+1, patientName.text, age.text, companion.text, phoneNumber.text);
                             Bridge.updateSurgeonInfo(rowNumber+1, surgeon.text, surgeonExperties.text)
                             Bridge.updateAnethInfo(rowNumber+1, anesthesiologist.text, anesthesiologistExperties.text)
                             Bridge.updateSurgeryTypeInfo(rowNumber+1, surgery.text, anesthesia.text)
                             Bridge.updateSurgeryTeamInfo(rowNumber+1, assestSergeon.text, nurseAnes.text, scrubNurse.text, circulatingNurse.text)
-
+                            Bridge.updateTimeInfo(rowNumber+1, hoursSliderStart.value, minutesSliderStart.value
+                                                  , hoursSliderDuration.value, minutesSliderDuration.value
+                                                  , dayComboBox.currentIndex + 1, monthComboBox.currentIndex,
+                                                  yearComboBox.currentIndex)
                             stackView.pop()
                         }
                     }
@@ -634,4 +652,3 @@ Page {
         }
     }
 }
-

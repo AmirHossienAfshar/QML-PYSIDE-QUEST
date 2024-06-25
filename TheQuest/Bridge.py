@@ -200,4 +200,8 @@ class Bridge(QObject):
     def updateSurgeryTeamInfo(self, id, AssestSurgen, NurseAnes, ScrubNurse, CirculatingNure):
         self.Dao.UpdateSurgeryTeamTable(id, AssestSurgen, NurseAnes, ScrubNurse, CirculatingNure)
 
+    @Slot(int, int, int, int, int, int, str, int)
+    def updateTimeInfo(self, id, StartHour, startMin, DurationHour, DurationMin, Day, Month, year):
+        self.Dao.UpdateTimeTable(id ,StartHour, startMin, DurationHour, DurationMin, Day, Month, year)
+
 

@@ -410,3 +410,37 @@ class SurgeryDAO:
         else:
             print(f"Update failed: {query.lastError().text()}")
             return False
+
+
+
+
+    def UpdateTimeTable(self, id, StartHour, startMin, DurationHour, DurationMin, Day, Month, year):
+        self.creatConnection()
+        query = QSqlQuery()
+
+        Daymodel = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30"]
+        Monthemodel = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+        Yearmodel = ["2024", "2025", "2026"]
+
+        #day1 = Daymodel[Day]
+        month1 = Monthemodel[int(Month)]
+        year1 = Yearmodel[int(year)]
+
+
+        query.prepare("UPDATE Time SET startSurgeryHour = :startSurgeryHour, startSurgeryMin = :startSurgeryMin, surgeryDurHour = :surgeryDurHour, surgeryDurMin = :surgeryDurMin, day = :day, month = :month, year = :year WHERE time_ID = :id")
+        query.bindValue(":startSurgeryHour", StartHour)
+        query.bindValue(":startSurgeryMin", startMin)
+        query.bindValue(":surgeryDurHour", DurationHour)
+        query.bindValue(":surgeryDurMin", DurationMin)
+        query.bindValue(":day", Day)
+        query.bindValue(":month", month1)
+        query.bindValue(":year", year1)
+        query.bindValue(":id", id)
+
+
+
+        if query.exec():
+            return True
+        else:
+            print(f"Update failed: {query.lastError().text()}")
+            return False
