@@ -1,5 +1,5 @@
 # This Python file uses the following encoding: utf-8
-from PySide6.QtCore import QObject, Slot, Signal, QAbstractTableModel
+from PySide6.QtCore import QObject, Slot, Signal
 from Patient import Patient
 from Anesthesiologist import Anesthesiologist
 from Surgeon import Surgeon
@@ -10,13 +10,15 @@ from Surgery import Surgery
 from SurgeryDAO import SurgeryDAO
 from DatabaseModels import SurgeryModel
 from PySide6.QtSql import QSqlTableModel
+#from PySide6.QtQml import QQmlApplicationEngine
+
 
 class Bridge(QObject):
 
     timeOverlapError = Signal(str)
     insertionSuccess = Signal()
 
-    updatedModel = Signal(QAbstractTableModel)
+    modelUpdated = Signal()
 
     patientDataFetched = Signal(str, str, str, str)
     SurgeryDataFetched = Signal(str, str)
@@ -84,32 +86,10 @@ class Bridge(QObject):
 #            self.surgeryAdded.emit()
             self.insertionSuccess.emit()
 
-#    @Slot()
-#    def newSurgeryAddedModelUpdated(self):
-#        print ("the model here should be updated, the signal of ypdate is here sent")
-#        self.modelUpdated.emit()
-
-#    @Slot()
-#    def refreshSurgeryModel(self):
-#        self.surgeryModel.fetch_data()
-#        self.modelUpdated.emit()
-
     @Slot()
-    def newSurgeryAddedSignal(self):
-        print("I have heard of some changes")
-        #UpdatedModel = SurgeryModel()
-        #self.sendSignalBack(UpdatedModel)
-        newModel = SurgeryModel()
-        newModel.fetch_data()
-        print("New model data:", newModel.data_list)  # Debugging statement
-        self.updatedModel.emit(newModel)
-        print("New model emitted", newModel)  # Debugging statement
-
-
-
-    @Slot()
-    def sendSignalBack(self, newModel):
-        pass
+    def newTry(self):
+        print("Updating model... this is newTry function calling")
+        self.modelUpdated.emit()
 
 
     @Slot(int)
@@ -126,7 +106,6 @@ class Bridge(QObject):
             self.patientDataFetched.emit(result[0], str(result[1]), result[2], str(result[3]))
         else:
             print(f"Failed to fetch patient data for ID {surgeryID}")
-
 
     @Slot(int)
     def requestSurgeonInfo(self, surgeryID):

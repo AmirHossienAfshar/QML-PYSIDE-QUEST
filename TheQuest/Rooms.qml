@@ -3,20 +3,31 @@ import QtQuick.Controls 2.15
 
 ApplicationWindow {
     visible: true
-    width: 1000
-    height: 600
-    minimumWidth: 950
-    minimumHeight: 400 // the minimum size of the EdithInfoPage.qml
+    width: 600
+    height: 400
+    title: "Rooms"
 
-
-
-    StackView {
-        id: stackView
-        initialItem: "RoomOperations.qml"
-        //initialItem: "EdithInfoPage.qml"
+    ListView {
         anchors.fill: parent
-        onCurrentItemChanged: {
-            //console.log("Current item changed to:", stackView.currentItem);
+        model: roomNumbers
+        delegate: Item {
+            width: parent.width
+
+            Row {
+                spacing: 10
+                Text {
+                    text: modelData  // Display room number
+                    font.pixelSize: 16
+                }
+                Button {
+                    text: "Go to this room"
+                    onClicked: {
+                        // Handle button click, e.g., navigate to the selected room
+                        console.log("Navigating to room", modelData)
+                        // Add your navigation logic here
+                    }
+                }
+            }
         }
     }
 }

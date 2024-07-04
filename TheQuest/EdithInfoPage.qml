@@ -8,7 +8,7 @@ import QtQuick.Dialogs
 Page {
     id: edithPage
     visible: true
-    property int rowNumber: -1  // Assuming this property is set by the parent
+    property int rowNumber: -1
     title: "Edith Info Page"
 
     function showErrorMessage(details) {
@@ -60,6 +60,7 @@ Page {
 
     }
 
+    // these functions below have the responsibalityt to show the data when an onld one is called.
     function onPatientDataFetched(name, PatientAge, companionName, patientPhoneNumber) {
         console.log("Received patient data: this is consul", name, PatientAge, companionName, patientPhoneNumber);
         patientName.text = name;
@@ -112,12 +113,6 @@ Page {
         yearComboBox.currentIndex = YearIndex;
 
     }
-
-    /*Connections {
-        target: Bridge
-        onSurgeryAdded: stackView.pop() // Navigate back when surgery is added
-        onTimeOverlapError: errorDialog.showErrorMessage(details)
-    }*/
 
     ColumnLayout{
         id: mainLayout
@@ -494,25 +489,10 @@ Page {
                                     //currentIndex : 0
                                 }
                             }
-
-                            /*RowLayout {
-                                spacing: 10
-                                Button {
-                                    text: "Submit"
-                                    onClicked: {
-                                        var selectedDay = dayComboBox.currentText
-                                        var selectedMonth = monthComboBox.currentText
-                                        var selectedYear = yearComboBox.currentText
-                                        console.log("Date Selected: " + selectedDay + " " + selectedMonth + " " + selectedYear)
-                                    }
-                                }
-                            }*/
                         }
                     }
                 }
-
             }
-
         }
 
         RowLayout{
@@ -614,6 +594,9 @@ Page {
 
                             Bridge.creatSurgeryTypeObject(surgery.text, anesthesia.text)
                             Bridge.compeletedObject()
+
+                            // here the database update must be added:
+
 
                         }
                     }

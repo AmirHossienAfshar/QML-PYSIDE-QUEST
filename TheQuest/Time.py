@@ -1,6 +1,4 @@
 # This Python file uses the following encoding: utf-8
-
-
 class Time:
     def __init__(self, startHour, startMin, DurationHour, DurationMin, Day, Month, year):
         self.startHour = startHour
@@ -10,7 +8,6 @@ class Time:
         self.Day = Day
         self.Month = Month
         self.year = year
-
 
     def printStart(self):
         print(f"start operation is on {self.startHour} : {self.startMin} .")

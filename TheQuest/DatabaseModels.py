@@ -1,6 +1,8 @@
 # This Python file uses the following encoding: utf-8
 from PySide6.QtSql import QSqlQuery, QSqlTableModel
 from PySide6.QtCore import Qt, QByteArray, QModelIndex
+from SurgeryDAO import SurgeryDAO
+from Surgery import Surgery
 
 class SurgeryModel(QSqlTableModel):
     def __init__(self, parent=None):
@@ -11,7 +13,7 @@ class SurgeryModel(QSqlTableModel):
         self.fetch_data()
 
     def fetch_data(self):
-        self.data_list.clear()  # Clear previous data ///////////////////////////////////////////////////
+        self.data_list.clear()  # Clear previous data
         query_str = """
             SELECT Time.startSurgeryHour, Patient.name AS patientName, Surgeon.name AS surgeonName
             FROM Surgery
@@ -67,3 +69,9 @@ class SurgeryModel(QSqlTableModel):
             Qt.UserRole + 3: QByteArray(b"surgeonName")
         }
         return roles
+
+
+    def refresh(self):
+        self.beginResetModel()  # Notify the view that the model is about to change
+        self.fetch_data()
+        self.endResetModel()  # Notify the view that the model has been reset

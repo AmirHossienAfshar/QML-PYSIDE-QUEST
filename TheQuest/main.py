@@ -17,12 +17,26 @@ engine = QQmlApplicationEngine()
 bridge = Bridge()
 model = SurgeryModel()
 
+#room_model = RoomModel()
+room_model = con.getRoomsTable()
+engine.rootContext().setContextProperty("roomNumbers", room_model)
+
 engine.rootContext().setContextProperty("Bridge", bridge)
 engine.rootContext().setContextProperty("surgeryModel", model)
 #engine.load('EdithInfoPage.qml')
 #engine.load('RoomOperations.qml')
-engine.load("Rooms.qml")
+engine.load("main.qml")
+#engine.load("Rooms.qml")
 
+#######
+def update_model():
+    #model2 = SurgeryModel()
+    model.refresh()
+    print("this is main and this is the model2", model)
+    engine.rootContext().setContextProperty("surgeryModel2", model)
+
+bridge.modelUpdated.connect(update_model)
+#######
 
 if not engine.rootObjects():
     print("Error: QML file not loaded.")

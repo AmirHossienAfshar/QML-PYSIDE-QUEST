@@ -7,12 +7,11 @@ import QtQuick.Window 2.2
 Page {
     id: newPage
     visible: true
-    /*width: 1000
-    height: 600*/
     width: parent.width
     height: parent.height
     title: qsTr("Surgery Schedule")
 
+    /*
     Component.onCompleted: {
         Bridge.updatedModel.connect(refreshSurgeryModel)
     }
@@ -24,7 +23,7 @@ Page {
         //surgeryListView.modelUpdated()
         console.log("this here the connection should be updated rrrrrrrrrrrrrr");
         console.log("Model updated with new data:", newModel);  // Debugging statement
-    }
+    }*/
 
 
     RowLayout {
@@ -77,8 +76,6 @@ Page {
                             Button {
                                 text: "Favorite Operation"
                                 onClicked: {
-
-                                    //console.log("Favorite operation clicked for", model.surgeonName);
                                     console.log("Edit info clicked for row", model.row);
                                     Bridge.requestTofillTable(model.row)
                                     stackView.push("EdithInfoPage.qml", { rowNumber: model.row });
@@ -115,19 +112,17 @@ Page {
                 }
 
                 Button {
-                    text: "update the surgery list"
+                    text: "Update the surgery list"
                     onClicked: {
-                        //Bridge.newSurgeryAddedModelUpdated()
-                        //stackView.push("EdithInfoPage.qml")
-                        console.log("moddddddddddddddddddel");
-                        surgeryListView.model = surgeryModel
+                        console.log("current model ", surgeryListView.model)
+                        Bridge.newTry()
+                        console.log("Updating model", surgeryModel2)
+                        //surgeryListView.model = surgeryModel2
                     }
                     Layout.alignment: Qt.AlignCenter
                     Layout.minimumWidth: 100
                 }
-
             }
         }
     }
-
 }
