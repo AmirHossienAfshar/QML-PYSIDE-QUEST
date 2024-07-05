@@ -17,9 +17,8 @@ class Bridge(QObject):
 
     timeOverlapError = Signal(str)
     insertionSuccess = Signal()
-
     modelUpdated = Signal()
-
+    surgeryStatusFetched = Signal(str)
     patientDataFetched = Signal(str, str, str, str)
     SurgeryDataFetched = Signal(str, str)
     AnethDataFetched = Signal(str, str)
@@ -91,7 +90,6 @@ class Bridge(QObject):
         print("Updating model... this is newTry function calling")
         self.modelUpdated.emit()
 
-
     @Slot(int)
     def requestTofillTable(self, surgeryID):
         print("request is sent", surgeryID)
@@ -100,7 +98,7 @@ class Bridge(QObject):
     @Slot(int)
     def requestPatientInfo(self, surgeryID):
         result = self.Dao.getPatientTable(surgeryID)
-        print ("this is the bridge", result[0], result[1], result[2], result[3])
+        #print ("this is the bridge", result[0], result[1], result[2], result[3])
         if result is not None:
             # Unpack the tuple and emit the signal with individual arguments
             self.patientDataFetched.emit(result[0], str(result[1]), result[2], str(result[3]))
@@ -110,7 +108,7 @@ class Bridge(QObject):
     @Slot(int)
     def requestSurgeonInfo(self, surgeryID):
         result = self.Dao.getSergeonTable(surgeryID)
-        print ("this is the bridge", result[0], result[1])
+        #print ("this is the bridge", result[0], result[1])
         if result is not None:
             self.SurgeryDataFetched.emit(result[0], str(result[1]))
         else:
@@ -121,7 +119,7 @@ class Bridge(QObject):
     @Slot(int)
     def requestAnethInfo(self, surgeryID):
         result = self.Dao.getAnethTable(surgeryID)
-        print ("this is the bridge", result[0], result[1])
+        #print ("this is the bridge", result[0], result[1])
         if result is not None:
             self.AnethDataFetched.emit(result[0], str(result[1]))
         else:
@@ -131,7 +129,7 @@ class Bridge(QObject):
     @Slot(int)
     def requestSurgeryTypeInfo(self, surgeryID):
         result = self.Dao.getSurgeryTypeTable(surgeryID)
-        print ("this is the bridge", result[0], result[1])
+        #print ("this is the bridge", result[0], result[1])
         if result is not None:
             self.SurgeryTypeDataFetched.emit(result[0], str(result[1]))
         else:
@@ -152,7 +150,6 @@ class Bridge(QObject):
     @Slot(int)
     def requestTimeInfo(self, surgeryID):
         result = self.Dao.getTimeTable(surgeryID)
-
         if result is not None:
             self.TimeFetched.emit(result[0], result[1], result[2], result[3], result[4], result[5], result[6])
         else:
@@ -184,3 +181,13 @@ class Bridge(QObject):
         self.Dao.UpdateTimeTable(id ,StartHour, startMin, DurationHour, DurationMin, Day, Month, year)
 
 
+    @Slot(int)
+    def cancelOperation(self, operationNumber):
+        self.Dao.cancelSurgery(operationNumber)
+
+
+    @Slot(str)
+    def getSurgeryStatus(self, surgeryNumber):
+        status = self.Dao.getSurgeryStatusDAO(surgeryNumber)
+        print ("\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\status is:", status)
+        self.surgeryStatusFetched.emit(status)

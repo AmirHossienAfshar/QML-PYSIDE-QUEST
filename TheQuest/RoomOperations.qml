@@ -47,11 +47,11 @@ Page {
                     GroupBox {
                         width: parent.width
                         height: parent.height
-                        title: model.surgeonName
+                        title: model.surgeonName ////
 
                         GridLayout {
                             anchors.fill: parent
-                            columns: 3
+                            columns: 4
                             rowSpacing: 10
                             columnSpacing: 10
 
@@ -73,15 +73,24 @@ Page {
                                 Layout.alignment: Qt.AlignCenter
                             }
 
+                            Text {
+                                text: "status: " + model.status
+                                font.pixelSize: 14
+                                Layout.row: 0
+                                Layout.column: 2
+                                Layout.minimumWidth: 100
+                                Layout.alignment: Qt.AlignCenter
+                            }
+
                             Button {
-                                text: "Favorite Operation"
+                                text: "Edith this Operation"
                                 onClicked: {
                                     console.log("Edit info clicked for row", model.row);
                                     Bridge.requestTofillTable(model.row)
                                     stackView.push("EdithInfoPage.qml", { rowNumber: model.row });
                                 }
                                 Layout.row: 0
-                                Layout.column: 2
+                                Layout.column: 3
                                 Layout.minimumWidth: 100
                                 Layout.alignment: Qt.AlignCenter
                             }
@@ -110,18 +119,19 @@ Page {
                     Layout.alignment: Qt.AlignCenter
                     Layout.minimumWidth: 100
                 }
-
+                /* // since the update is automatic, then it wont be neccesury to be here.
                 Button {
                     text: "Update the surgery list"
                     onClicked: {
-                        console.log("current model ", surgeryListView.model)
+                        //console.log("current model ", surgeryListView.model)
                         Bridge.newTry()
-                        console.log("Updating model", surgeryModel2)
+                        //console.log("Updating model", surgeryModel2)
                         //surgeryListView.model = surgeryModel2
                     }
                     Layout.alignment: Qt.AlignCenter
                     Layout.minimumWidth: 100
                 }
+                */
             }
         }
     }

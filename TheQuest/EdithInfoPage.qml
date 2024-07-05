@@ -9,6 +9,7 @@ Page {
     id: edithPage
     visible: true
     property int rowNumber: -1
+    property bool isSurgeryCanceled: false
     title: "Edith Info Page"
 
     function showErrorMessage(details) {
@@ -28,17 +29,38 @@ Page {
         visible: false
     }
 
+    Dialog {
+        id: confirmationDialog
+        modal: true // A modal dialog blocks input to other content beneath the dialog
+        anchors.centerIn: parent
+        standardButtons: Dialog.Yes | Dialog.No
+        title: "Confirm"
+        Label {
+            text: "Are you sure you want to cancel the surgery?"
+        }
+        onAccepted: {
+            Bridge.cancelOperation(rowNumber+1)
+            Bridge.newTry()
+            stackView.pop()
+        }
+
+        onRejected: {
+            // Do nothing, just close the dialog
+            confirmationDialog.close()
+        }
+    }
+
     Component.onCompleted: {
         Bridge.timeOverlapError.connect(showErrorMessage)
         Bridge.insertionSuccess.connect(navigateToNextPage)
-        console.log("Navigated to EdithInfoPage with row number:", rowNumber);
-
-        Bridge.patientDataFetched.connect(onPatientDataFetched);
-        Bridge.SurgeryDataFetched.connect(onSurgeonDataFetched);
-        Bridge.AnethDataFetched.connect(onAnethDataFetched);
-        Bridge.SurgeryTypeDataFetched.connect(onSurgeryTypeFetched);
-        Bridge.SurgeryTypeTeamFetched.connect(onSurgeryTeamFetched);
-        Bridge.TimeFetched.connect(onTimeFetched);
+        //console.log("Navigated to EdithInfoPage with row number:", rowNumber);
+        Bridge.patientDataFetched.connect(onPatientDataFetched)
+        Bridge.SurgeryDataFetched.connect(onSurgeonDataFetched)
+        Bridge.AnethDataFetched.connect(onAnethDataFetched)
+        Bridge.SurgeryTypeDataFetched.connect(onSurgeryTypeFetched)
+        Bridge.SurgeryTypeTeamFetched.connect(onSurgeryTeamFetched)
+        Bridge.TimeFetched.connect(onTimeFetched)
+        Bridge.surgeryStatusFetched.connect(updateSurgeryStatus)
 
 
         if (rowNumber !== -1) {
@@ -49,6 +71,8 @@ Page {
             Bridge.requestSurgeryTeamInfo(rowNumber+1);
             Bridge.requestTimeInfo(rowNumber+1);
 
+            // this part is added:
+            Bridge.getSurgeryStatus(rowNumber+1)
             creatSurgery.visible = false
             creatSurgery.enabled = false
         }
@@ -56,13 +80,41 @@ Page {
         {
             upadteSurgry.visible = false
             upadteSurgry.enabled = false
+            cancelOperation.visible = false
+            cancelOperation.enabled = false
         }
 
     }
 
+    function updateSurgeryStatus(status1) {
+        cancelOperation.visible = (status1 !== "off")
+        cancelOperation.enabled = (status1 !== "off")
+        upadteSurgry.enabled = (status1 !== "off")
+        upadteSurgry.visible = (status1 !== "off")
+        if (status1 === "off")
+            setFieldsReadOnly(isSurgeryCanceled)
+    }
+
+    function setFieldsReadOnly() {
+        patientName.readOnly = true
+        age.readOnly = true
+        companion.readOnly = true
+        phoneNumber.readOnly = true
+        surgeon.readOnly = true
+        surgeonExperties.readOnly = true
+        anesthesiologist.readOnly = true
+        anesthesiologistExperties.readOnly = true
+        surgery.readOnly = true
+        anesthesia.readOnly = true
+        assestSergeon.readOnly = true
+        nurseAnes.readOnly = true
+        scrubNurse.readOnly = true
+        circulatingNurse.readOnly = true
+    }
+
     // these functions below have the responsibalityt to show the data when an onld one is called.
     function onPatientDataFetched(name, PatientAge, companionName, patientPhoneNumber) {
-        console.log("Received patient data: this is consul", name, PatientAge, companionName, patientPhoneNumber);
+        //console.log("Received patient data: this is consul", name, PatientAge, companionName, patientPhoneNumber);
         patientName.text = name;
         age.text = PatientAge;
         companion.text = companionName;
@@ -70,25 +122,25 @@ Page {
     }
 
     function onSurgeonDataFetched(surgeonName, SurgeonExperties) {
-        console.log("Received patient data: this is consul", surgeonName, SurgeonExperties);
+        //console.log("Received patient data: this is consul", surgeonName, SurgeonExperties);
         surgeon.text = surgeonName
         surgeonExperties.text = SurgeonExperties
     }
 
     function onAnethDataFetched(anethName, anethExperties) {
-        console.log("Received patient data: this is consul", anethName, anethExperties);
+        //console.log("Received patient data: this is consul", anethName, anethExperties);
         anesthesiologist.text = anethName
         anesthesiologistExperties.text = anethExperties
     }
 
     function onSurgeryTypeFetched(SurgeryType, AnethType) {
-        console.log("Received patient data: this is consul", SurgeryType, AnethType);
+        //console.log("Received patient data: this is consul", SurgeryType, AnethType);
         surgery.text = SurgeryType
         anesthesia.text = AnethType
     }
 
     function onSurgeryTeamFetched(AssestSurgen, NurseAnes, ScrubNurse, CirculatingNure) {
-        console.log("Received patient data: this is consul", AssestSurgen, NurseAnes, ScrubNurse, CirculatingNure);
+        //console.log("Received patient data: this is consul", AssestSurgen, NurseAnes, ScrubNurse, CirculatingNure);
         assestSergeon.text = AssestSurgen;
         nurseAnes.text = NurseAnes;
         scrubNurse.text = ScrubNurse;
@@ -630,6 +682,15 @@ Page {
                             Bridge.newTry()
                         }
                     }
+                    Button {
+                        id: cancelOperation
+                        text: "cancel the surgery"
+                        onClicked: {
+                            confirmationDialog.open()
+                            //Bridge.newTry()
+                        }
+                    }
+
                 }
             }
         }

@@ -123,7 +123,7 @@ class SurgeryDAO:
         #print("SurgeryTable is now called.")
         self.creatConnection()
         query = QSqlQuery()
-        query.prepare("INSERT INTO Surgery (time_ID, patient_ID, surgeon_ID, aneth_ID, team_ID,surgeryType_ID, roomNumber) VALUES (?, ?, ?, ?, ?, ?, ?)")
+        query.prepare("INSERT INTO Surgery (time_ID, patient_ID, surgeon_ID, aneth_ID, team_ID,surgeryType_ID, roomNumber, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)")
         query.addBindValue(time_id)
         query.addBindValue(patient_id)
         query.addBindValue(surgeon_id)
@@ -131,6 +131,7 @@ class SurgeryDAO:
         query.addBindValue(team_id)
         query.addBindValue(surgeryType_id)
         query.addBindValue(22) # this field has to be setted with the need of its own.
+        query.addBindValue("on")
 
         if not query.exec():
            print(f"Insert error Surgery Table: {query.lastError().text()}")
@@ -451,4 +452,32 @@ class SurgeryDAO:
         while query.next():
             rooms.append(query.value(0))  # Assuming room_number is in the first column
         return rooms
+
+
+    def cancelSurgery(self, surgeryNumber):
+        self.creatConnection()
+        query = QSqlQuery()
+        query.prepare("UPDATE Surgery SET status = :status WHERE surgeryType_ID = :id")
+        query.bindValue(":status", "off")
+        query.bindValue(":id", surgeryNumber)
+
+        if query.exec():
+            return True
+        else:
+            print(f"Update failed: {query.lastError().text()}")
+            return False
+
+
+    def getSurgeryStatusDAO(self, surgeryNumber):
+        self.creatConnection()
+        query = QSqlQuery()
+        query.prepare("SELECT status FROM Surgery WHERE surgeryType_ID = :id")
+        query.bindValue(":id", surgeryNumber)
+
+        if query.exec() and query.next():
+            return query.value(0)
+        else:
+            print(f"Query failed: {query.lastError().text()}")
+            return None
+
 
