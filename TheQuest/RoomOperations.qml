@@ -2,7 +2,8 @@ import QtQuick
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 import QtQuick.Window 2.2
-
+//import QtQml.Models 2.15 // Import the module for SortFilterProxyModel
+//import SortFilterProxyModel
 
 Page {
     id: newPage
@@ -10,23 +11,43 @@ Page {
     width: parent.width
     height: parent.height
     title: qsTr("Surgery Schedule")
+    property int surgeryRoomNumber
+
+
+    //onSurgeryRoomNumberChanged: filterSurgeryList()
+
 
     /*
-    Component.onCompleted: {
-        Bridge.updatedModel.connect(refreshSurgeryModel)
+    SortFilterProxyModel {
+        id: proxyModel
+        sourceModel: surgeryModel // Your original model
+        filterRoleName: "roomNumber" // Ensure this role exists in your model
+        filterValue: surgeryRoomNumber
+    }
+    */
+
+    /*ListModel {
+        id: filteredSurgeryModel
     }
 
-    function refreshSurgeryModel(newModel) {
-        //Bridge.refreshSurgeryModel()
-        surgeryListView.model = null
-        surgeryListView.model = newModel
-        //surgeryListView.modelUpdated()
-        console.log("this here the connection should be updated rrrrrrrrrrrrrr");
-        console.log("Model updated with new data:", newModel);  // Debugging statement
+    function filterSurgeryList() {
+        filteredSurgeryModel.clear()
+        for (var i = 0; i < surgeryModel.count; ++i) {
+            var item = surgeryModel.get(i)
+            if (item.roomNumber === surgeryRoomNumber) {
+                filteredSurgeryModel.append(item)
+            }
+        }
+        console.log("this is the filterd of rooms", filteredSurgeryModel);
+
+    }
+
+    Component.onCompleted: {
+        filterSurgeryList()
     }*/
 
-
     RowLayout {
+
         anchors.fill: parent
 
         GroupBox {
@@ -39,7 +60,7 @@ Page {
                 id: surgeryListView
                 anchors.fill: parent
                 model: surgeryModel
-
+                //model: filteredSurgeryModel
                 delegate: Item {
                     width: ListView.view.width
                     height: 100
@@ -88,6 +109,8 @@ Page {
                                     console.log("Edit info clicked for row", model.row);
                                     Bridge.requestTofillTable(model.row)
                                     stackView.push("EdithInfoPage.qml", { rowNumber: model.row });
+                                    console.log("and here is the room number", surgeryRoomNumber);
+
                                 }
                                 Layout.row: 0
                                 Layout.column: 3
@@ -132,6 +155,14 @@ Page {
                     Layout.minimumWidth: 100
                 }
                 */
+                Button {
+                    text: "Back to rooms page"
+                    onClicked: {
+                        stackView.pop()
+                    }
+                    Layout.alignment: Qt.AlignCenter
+                    Layout.minimumWidth: 100
+                }
             }
         }
     }

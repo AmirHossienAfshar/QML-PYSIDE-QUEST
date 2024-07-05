@@ -11,8 +11,9 @@ ApplicationWindow {
 
     StackView {
         id: stackView
-        initialItem: "RoomOperations.qml"
+        //initialItem: "RoomOperations.qml"
         //initialItem: "EdithInfoPage.qml"
+        initialItem: "Rooms.qml"
         anchors.fill: parent
         onCurrentItemChanged: {
             //console.log("Current item changed to:", stackView.currentItem);

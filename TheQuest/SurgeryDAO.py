@@ -445,13 +445,13 @@ class SurgeryDAO:
             return False
 
 
-    def getRoomsTable(self):
-        self.creatConnection()
-        rooms = []
-        query = QSqlQuery("SELECT room_number FROM Rooms")
-        while query.next():
-            rooms.append(query.value(0))  # Assuming room_number is in the first column
-        return rooms
+#    def getRoomsTable(self):
+#        self.creatConnection()
+#        rooms = []
+#        query = QSqlQuery("SELECT room_number FROM Rooms")
+#        while query.next():
+#            rooms.append(query.value(0))  # Assuming room_number is in the first column
+#        return rooms
 
 
     def cancelSurgery(self, surgeryNumber):
@@ -479,5 +479,26 @@ class SurgeryDAO:
         else:
             print(f"Query failed: {query.lastError().text()}")
             return None
+
+
+    def addNewRoom(self, RowNumber):
+        self.creatConnection()
+        query = QSqlQuery()
+        query.prepare("INSERT INTO Rooms (room_numbers) VALUES (?)")
+        query.addBindValue(RowNumber)
+        if not query.exec():
+            print(f"added new room to Rooms table failed: {query.lastError().text()}")
+        return query.lastInsertId()
+
+
+    def getRoomCountDAO(self):
+        self.creatConnection()
+        query = QSqlQuery()
+        query.prepare("SELECT COUNT(*) FROM Rooms")
+        if query.exec() and query.next():
+            return query.value(0)
+        else:
+            print(f"Query failed: {query.lastError().text()}")
+            return 0
 
 

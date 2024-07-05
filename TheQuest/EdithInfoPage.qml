@@ -177,8 +177,6 @@ Page {
             Layout.fillHeight:  true
 
             anchors.fill: parent
-            //anchors.margins: appWindow.margin
-
 
             GroupBox { // patient info
 
@@ -231,10 +229,6 @@ Page {
                                 model.append({text: editText})
                         }
                     }
-
-                    /*Label {
-                        text: "this is the ID" + rowNumber
-                    }*/
 
                     TextField {
                         id: patientName

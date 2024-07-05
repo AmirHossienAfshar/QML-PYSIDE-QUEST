@@ -18,6 +18,9 @@ class Bridge(QObject):
     timeOverlapError = Signal(str)
     insertionSuccess = Signal()
     modelUpdated = Signal()
+
+    modelUpdated_rooms = Signal()
+
     surgeryStatusFetched = Signal(str)
     patientDataFetched = Signal(str, str, str, str)
     SurgeryDataFetched = Signal(str, str)
@@ -25,6 +28,8 @@ class Bridge(QObject):
     SurgeryTypeDataFetched = Signal(str, str)
     SurgeryTypeTeamFetched = Signal(str, str, str, str)
     TimeFetched = Signal (int, int, int, int, int, str, int)
+
+    roomCountFetched = Signal(int)
 
     def __init__(self):
         super().__init__()
@@ -89,6 +94,7 @@ class Bridge(QObject):
     def newTry(self):
         print("Updating model... this is newTry function calling")
         self.modelUpdated.emit()
+
 
     @Slot(int)
     def requestTofillTable(self, surgeryID):
@@ -185,9 +191,23 @@ class Bridge(QObject):
     def cancelOperation(self, operationNumber):
         self.Dao.cancelSurgery(operationNumber)
 
-
     @Slot(str)
     def getSurgeryStatus(self, surgeryNumber):
         status = self.Dao.getSurgeryStatusDAO(surgeryNumber)
         print ("\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\status is:", status)
         self.surgeryStatusFetched.emit(status)
+
+
+    @Slot(int)
+    def newRoom(self, rowNumber):
+        self.Dao.addNewRoom(rowNumber)
+
+    @Slot()
+    def newTry_rooms(self):
+        print("Updating model... this is newTry function calling for new roomsssssssss")
+        self.modelUpdated_rooms.emit()
+
+    @Slot()
+    def getRoomCount(self):
+        roomCount = self.Dao.getRoomCountDAO()
+        self.roomCountFetched.emit(roomCount)
