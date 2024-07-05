@@ -4,6 +4,7 @@ from PySide6.QtSql import QSqlDatabase, QSqlQuery, QSqlTableModel
 class SurgeryDAO:
     def __init__(self, surgery):
         self.Surgery = surgery
+        self.room = None
 
     def creatConnection(self):
         db = QSqlDatabase.addDatabase("QSQLITE")
@@ -130,7 +131,7 @@ class SurgeryDAO:
         query.addBindValue(anesthetist_id)
         query.addBindValue(team_id)
         query.addBindValue(surgeryType_id)
-        query.addBindValue(22) # this field has to be setted with the need of its own.
+        query.addBindValue(22) # this field has to be setted with the need of its own.///////////////////////////////
         query.addBindValue("on")
 
         if not query.exec():

@@ -90,14 +90,9 @@ Page {
 
             ColumnLayout {
                 anchors.fill: parent // Fill the GroupBox
-
                 Button {
                     text: "New Room"
                     onClicked: {
-                        //Bridge.newSurgeryAddedModelUpdated()
-                        //stackView.push("EdithInfoPage.qml")
-                        //Bridge.newRoom(10) ///////////////////////update has problems too////////////this part must be dn
-                        //Bridge.newTry_rooms()
                         Bridge.getRoomCount()
                     }
                     Layout.alignment: Qt.AlignCenter

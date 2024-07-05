@@ -2,16 +2,14 @@ import QtQuick
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 import QtQuick.Window 2.2
-//import QtQml.Models 2.15 // Import the module for SortFilterProxyModel
-//import SortFilterProxyModel
-
+import QtQml.Models 2.15 // Import the module for SortFilterProxyModel
 Page {
     id: newPage
     visible: true
     width: parent.width
     height: parent.height
     title: qsTr("Surgery Schedule")
-    property int surgeryRoomNumber
+    property int surgeryRoomNumber: -1
 
 
     //onSurgeryRoomNumberChanged: filterSurgeryList()
@@ -24,7 +22,7 @@ Page {
         filterRoleName: "roomNumber" // Ensure this role exists in your model
         filterValue: surgeryRoomNumber
     }
-    */
+*/
 
     /*ListModel {
         id: filteredSurgeryModel
@@ -46,6 +44,10 @@ Page {
         filterSurgeryList()
     }*/
 
+    Component.onCompleted: {
+        proxyModel.setRoomNumber(surgeryRoomNumber)
+    }
+
     RowLayout {
 
         anchors.fill: parent
@@ -59,8 +61,9 @@ Page {
             ListView {
                 id: surgeryListView
                 anchors.fill: parent
-                model: surgeryModel
+                //model: surgeryModel
                 //model: filteredSurgeryModel
+                model : proxyModel
                 delegate: Item {
                     width: ListView.view.width
                     height: 100
@@ -108,6 +111,7 @@ Page {
                                 onClicked: {
                                     console.log("Edit info clicked for row", model.row);
                                     Bridge.requestTofillTable(model.row)
+                                    //Bridge.setRoomNumber(model.room_numbers)
                                     stackView.push("EdithInfoPage.qml", { rowNumber: model.row });
                                     console.log("and here is the room number", surgeryRoomNumber);
 
@@ -166,4 +170,15 @@ Page {
             }
         }
     }
+
+    /*SortFilterProxyModel {
+        id: proxyModel
+        sourceModel: surgeryModel
+        filterRoleName: "roomNumber"
+        filterValue: surgeryRoomNumber
+    }*/
+
+    /*Component.onCompleted: {
+        surgeryRoomNumber = 1 // Initial room number or set it dynamically
+    }*/
 }

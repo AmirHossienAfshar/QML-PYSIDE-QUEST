@@ -2,7 +2,7 @@ import sys
 from PySide6.QtWidgets import QApplication
 from PySide6.QtQml import QQmlApplicationEngine
 from Bridge import Bridge
-from DatabaseModels import SurgeryModel, RoomsModel
+from DatabaseModels import SurgeryModel, RoomsModel, SurgeryProxyModel
 from SurgeryDAO import SurgeryDAO
 
 
@@ -18,18 +18,21 @@ bridge = Bridge()
 model = SurgeryModel()
 model2 = RoomsModel()
 
-#room_model = RoomModel()
-#room_model = con.getRoomsTable()
-#engine.rootContext().setContextProperty("roomNumbers", room_model)
+proxy_model = SurgeryProxyModel()##
+proxy_model.setSourceModel(model)##
+
 engine.rootContext().setContextProperty("RoomsModel", model2)
 engine.rootContext().setContextProperty("Bridge", bridge)
 engine.rootContext().setContextProperty("surgeryModel", model)
+
+engine.rootContext().setContextProperty("proxyModel", proxy_model)##
+
 #engine.load('EdithInfoPage.qml')
 #engine.load('RoomOperations.qml')
 engine.load("main.qml")
 #engine.load("Rooms.qml")
 
-#######
+####### awsome
 def update_model():
     #model2 = SurgeryModel()
     model.refresh()
@@ -37,13 +40,20 @@ def update_model():
     engine.rootContext().setContextProperty("surgeryModel", model)
 
 bridge.modelUpdated.connect(update_model)
-#######
+####### awsome
 def update_model_rooms():
     model2.refresh()
     engine.rootContext().setContextProperty("RoomModel", model2)
 
 bridge.modelUpdated_rooms.connect(update_model_rooms)
 #######
+
+
+##///////////////////////////////////
+#def set_room_number(room_number):
+#    model.setRoomNumber(room_number)
+#    model.refresh()
+##///////////////////////////////////
 
 
 if not engine.rootObjects():
