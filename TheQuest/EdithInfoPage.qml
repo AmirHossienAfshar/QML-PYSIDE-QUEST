@@ -18,7 +18,7 @@ Page {
 
     function navigateToNextPage() {
         stackView.pop()
-        Bridge.newSurgeryAddedSignal()
+        //Bridge.newSurgeryAddedSignal()
     }
 
     MessageDialog {
@@ -596,8 +596,7 @@ Page {
                             Bridge.compeletedObject()
 
                             // here the database update must be added:
-
-
+                            Bridge.newTry()
                         }
                     }
 
@@ -628,6 +627,7 @@ Page {
                                                   , dayComboBox.currentIndex + 1, monthComboBox.currentIndex,
                                                   yearComboBox.currentIndex)
                             stackView.pop()
+                            Bridge.newTry()
                         }
                     }
                 }
